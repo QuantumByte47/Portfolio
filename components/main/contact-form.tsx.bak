@@ -1,0 +1,282 @@
+"use client";
+
+import { useState, useEffect } from 'react';
+import { 
+  PaperAirplaneIcon, 
+  CheckIcon,
+  ExclamationTriangleIcon 
+} from '@heroicons/react/24/outline';
+
+const projectTypes = [
+  { value: "", label: "Select Project/Query Type" },
+  { value: "ai-ml-project", label: "🤖 AI/ML Project Development" },
+  { value: "data-science", label: "📊 Data Science & Analytics" },
+  { value: "automation", label: "⚡ Business Process Automation" },
+  { value: "web-development", label: "🌐 Full-Stack Web Development" },
+  { value: "consulting", label: "💡 Technical Consulting" },
+  { value: "collaboration", label: "🤝 Partnership/Collaboration" },
+  { value: "other", label: "❓ Other Inquiry" }
+];
+
+export const ContactForm = () => {
+  const [mounted, setMounted] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    company: '',
+    projectType: '',
+    budget: '',
+    timeline: '',
+    message: ''
+  });
+  
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    setFormData(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    try {
+      const subject = `New Contact: ${formData.projectType || 'General Inquiry'}`;
+      const body = `
+Name: ${formData.name}
+Email: ${formData.email}
+Company: ${formData.company}
+Project Type: ${formData.projectType}
+Budget: ${formData.budget}
+Timeline: ${formData.timeline}
+
+Message:
+${formData.message}
+      `.trim();
+
+      const mailtoLink = `mailto:talhaislam471@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      window.location.href = mailtoLink;
+      
+      setSubmitStatus('success');
+      setFormData({
+        name: '',
+        email: '',
+        company: '',
+        projectType: '',
+        budget: '',
+        timeline: '',
+        message: ''
+      });
+    } catch (error) {
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+      setTimeout(() => setSubmitStatus('idle'), 3000);
+    }
+  };
+
+  if (!mounted) {
+    return (
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center mb-12">
+          <h3 className="text-4xl font-bold text-blue-800 mb-6">Get In Touch</h3>
+          <p className="text-xl text-black leading-relaxed">
+            Ready to bring your AI vision to life? Let's discuss your project requirements and create something amazing together.
+          </p>
+        </div>
+        <div className="bg-white border border-gray-300 rounded-2xl p-8 shadow-lg">
+          <div className="space-y-6">
+            <div className="text-center text-black">
+              Loading contact form...
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="max-w-4xl mx-auto">
+      <div className="text-center mb-12">
+        <h3 className="text-4xl font-bold text-blue-800 mb-6">Get In Touch</h3>
+        <p className="text-xl text-black leading-relaxed">
+          Ready to bring your AI vision to life? Let's discuss your project requirements and create something amazing together.
+        </p>
+      </div>
+
+      <div className="bg-white border border-gray-300 rounded-2xl p-8 shadow-lg">
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label htmlFor="name" className="block text-sm font-semibold text-black mb-2">
+                Full Name *
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+                placeholder="Enter your full name"
+                className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl text-black placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-300"
+              />
+            </div>
+            <div>
+              <label htmlFor="email" className="block text-sm font-semibold text-black mb-2">
+                Email Address *
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                placeholder="Enter your email address"
+                className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl text-black placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-300"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label htmlFor="company" className="block text-sm font-semibold text-black mb-2">
+                Company/Organization
+              </label>
+              <input
+                type="text"
+                id="company"
+                name="company"
+                value={formData.company}
+                onChange={handleChange}
+                placeholder="Enter your company name (optional)"
+                className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl text-black placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-300"
+              />
+            </div>
+            <div>
+              <label htmlFor="projectType" className="block text-sm font-semibold text-black mb-2">
+                Project Type *
+              </label>
+              <select
+                id="projectType"
+                name="projectType"
+                value={formData.projectType}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl text-black focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-300"
+              >
+                {projectTypes.map((type) => (
+                  <option key={type.value} value={type.value} className="bg-white text-black">
+                    {type.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label htmlFor="budget" className="block text-sm font-semibold text-black mb-2">
+                Budget Range
+              </label>
+              <select
+                id="budget"
+                name="budget"
+                value={formData.budget}
+                onChange={handleChange}
+                className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl text-black focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-300"
+              >
+                <option value="" className="bg-white text-black">Select budget range (optional)</option>
+                <option value="under-5k" className="bg-white text-black">Under $5,000</option>
+                <option value="5k-15k" className="bg-white text-black">$5,000 - $15,000</option>
+                <option value="15k-50k" className="bg-white text-black">$15,000 - $50,000</option>
+                <option value="50k-plus" className="bg-white text-black">$50,000+</option>
+                <option value="discuss" className="bg-white text-black">Let's discuss</option>
+              </select>
+            </div>
+            <div>
+              <label htmlFor="timeline" className="block text-sm font-semibold text-black mb-2">
+                Project Timeline
+              </label>
+              <select
+                id="timeline"
+                name="timeline"
+                value={formData.timeline}
+                onChange={handleChange}
+                className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl text-black focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-300"
+              >
+                <option value="" className="bg-white text-black">Select timeline (optional)</option>
+                <option value="asap" className="bg-white text-black">ASAP</option>
+                <option value="1-month" className="bg-white text-black">Within 1 month</option>
+                <option value="3-months" className="bg-white text-black">1-3 months</option>
+                <option value="6-months" className="bg-white text-black">3-6 months</option>
+                <option value="flexible" className="bg-white text-black">Flexible timeline</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label htmlFor="message" className="block text-sm font-semibold text-black mb-2">
+              Project Details *
+            </label>
+            <textarea
+              id="message"
+              name="message"
+              value={formData.message}
+              onChange={handleChange}
+              required
+              rows={6}
+              placeholder="Tell me about your project, goals, challenges, and what you're looking to achieve..."
+              className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl text-black placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-300 resize-vertical"
+            />
+          </div>
+
+          <div className="pt-4">
+            <button
+              type="submit"
+              disabled={isSubmitting || !formData.name || !formData.email || !formData.projectType || !formData.message}
+              className="w-full md:w-auto px-8 py-4 bg-blue-600 text-white font-bold rounded-xl disabled:bg-gray-600 disabled:cursor-not-allowed shadow-lg flex items-center justify-center gap-3"
+            >
+              {isSubmitting ? (
+                <>
+                  <div className="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full"></div>
+                  Processing...
+                </>
+              ) : (
+                <>
+                  <PaperAirplaneIcon className="w-5 h-5" />
+                  Send Message
+                </>
+              )}
+            </button>
+          </div>
+        </form>
+
+        {submitStatus === 'success' && (
+          <div className="mt-6 p-4 bg-green-100 border border-green-300 rounded-xl">
+            <p className="text-green-800 text-center">
+              ✅ Your message has been prepared! Your email client should open shortly.
+            </p>
+          </div>
+        )}
+
+        {submitStatus === 'error' && (
+          <div className="mt-6 p-4 bg-red-100 border border-red-300 rounded-xl">
+            <p className="text-red-800 text-center">
+              ❌ Something went wrong. Please try again or contact me directly at talhaislam471@gmail.com
+            </p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
