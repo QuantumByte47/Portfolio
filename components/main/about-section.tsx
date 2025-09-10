@@ -22,39 +22,53 @@ export const AboutSection = () => {
 
   const experience = [
     {
+      company: "Wortholic",
+      role: "Co-Founder & Director (AI & Data Science)",
+      period: "Aug 2025 - Present",
+      location: "Rawalpindi, Punjab, Pakistan · On-site",
+      description: "Lead the design and execution of AI-driven solutions, SaaS platforms, and enterprise-grade applications. Oversee end-to-end product lifecycles from conceptualization to deployment, building cloud-native SaaS architectures, real-time AI voice systems, and intelligent automation platforms. Guide multi-disciplinary team across AI engineering, developing flagship AI products including NF and multiple AI MVPs."
+    },
+    {
+      company: "SimpleTalk AI",
+      role: "AI Automation Expert",
+      period: "May 2025 - Aug 2025",
+      location: "United States · Remote",
+      description: "Developed intelligent automation solutions using advanced AI models, implemented conversational AI systems, and optimized machine learning workflows for enhanced business operations."
+    },
+    {
       company: "INEXOR",
       role: "Data Scientist",
-      period: "05/2025 - Present",
-      location: "Islamabad, Onsite",
-      description: "Led end-to-end development of RAG-based LLM systems for financial industry, implementing hallucination detection, routing strategies, and response validation frameworks."
+      period: "Jan 2025 - Jul 2025",
+      location: "Islamabad, Pakistan · On-site",
+      description: "Led end-to-end development of RAG-based LLM systems for financial industry, integrating retrieval pipelines, vector databases, and knowledge-grounding mechanisms. Implemented hallucination detection, routing strategies, and response validation frameworks. Designed real-time data pipelines with advanced crypto and stock market visualizations."
     },
     {
       company: "SuperAnnotate", 
       role: "Data Annotator",
-      period: "01/2025 - 05/2024",
-      location: "Islamabad, Onsite",
-      description: "Evaluated and labeled AI chatbot responses to ensure accuracy, relevance, and coherence. Performed response comparison and quality validation for NLP models."
+      period: "Jan 2025 - Jun 2025",
+      location: "California, United States · Remote",
+      description: "Evaluated and labeled AI chatbot responses to ensure accuracy, relevance, and coherence. Performed response comparison, error detection, and quality validation, providing structured feedback to improve NLP models and conversational AI performance."
     },
     {
       company: "Voliom",
-      role: "Data Analyst and AI Developer", 
-      period: "2021 - Dec 2024",
-      location: "USA",
-      description: "Analyzed large datasets to extract actionable insights, developed data models, created visualizations and dashboards, conducted statistical analysis to identify trends."
+      role: "Data Analyst",
+      period: "Jan 2022 - Jan 2025",
+      location: "United States · Remote",
+      description: "Analyzed large datasets to extract actionable insights, developed data models, created visualizations and dashboards, conducted statistical analysis to identify trends and patterns. Collaborated with cross-functional teams to drive data-driven solutions."
+    },
+    {
+      company: "Voliom",
+      role: "Data Analyst and Lead Generation",
+      period: "Jan 2021 - Jun 2022",
+      location: "Pakistan · Remote",
+      description: "Specialized in data analysis and lead generation, gathering and analyzing data to support strategic initiatives. Developed comprehensive understanding of data analysis and effective communication of complex information to diverse audiences."
     },
     {
       company: "Upwork",
-      role: "Freelance ML Engineer",
-      period: "01/2022 - 11/2024", 
-      location: "USA",
-      description: "Developed and implemented stable diffusion models for image story generation using advanced machine learning techniques."
-    },
-    {
-      company: "Volunteer Work",
-      role: "AI Researcher",
-      period: "01/2021 - 02/2022",
-      location: "USA",
-      description: "Conducted research on machine learning algorithms and contributed to open-source AI projects."
+      role: "Freelance Machine Learning Engineer",
+      period: "Mar 2023 - Apr 2023", 
+      location: "Remote",
+      description: "Developed and implemented stable diffusion models for image story generation, leveraging advanced machine learning techniques and generative AI tools."
     }
   ];
 

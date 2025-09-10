@@ -2,60 +2,68 @@
 
 const projects = [
   {
-    title: "RAG-based LLM System for Finance",
-    description: "Enterprise RAG-based LLM systems with vector databases and knowledge-grounding mechanisms.",
-    technologies: ["Python", "LangChain", "Vector DB", "RAG"],
+    title: "Wortholic AI Assistant",
+    description: "Advanced AI Assistant Platform with Multi-Model Support (Claude, GPT-4, Gemini Pro, DeepSeek). Enterprise-ready with Docker deployment.",
+    technologies: ["TypeScript", "Next.js", "AI Models", "Docker"],
     category: "AI/ML Enterprise",
-    status: "Completed"
+    status: "Completed",
+    url: "https://github.com/QuantumByte47/wortholic-ai"
   },
   {
-    title: "Predictive Retail Analytics",
-    description: "Advanced predictive models for CLV prediction, sales forecasting, and churn prediction.",
-    technologies: ["Python", "Random Forest", "Time Series", "ML"],
-    category: "Data Science", 
-    status: "Completed"
+    title: "Enterprise AI CRM Platform",
+    description: "Next-generation CRM with AI-powered lead scoring, predictive analytics, automated workflows, and intelligent customer insights using advanced ML models.",
+    technologies: ["TypeScript", "PostgreSQL", "AI/ML", "Microservices"],
+    category: "AI/Enterprise",
+    status: "In Progress",
+    url: "#"
   },
   {
-    title: "Stable Diffusion Image Gen",
-    description: "Custom stable diffusion models for creative image story generation.",
-    technologies: ["Stable Diffusion", "Python", "Computer Vision"],
-    category: "AI/Creative",
-    status: "Completed"
+    title: "Qwen3 Finance AI System",
+    description: "GPU-accelerated financial AI system powered by Qwen3-1.7B with specialized finance reasoning and cyberpunk UI.",
+    technologies: ["Python", "PyTorch", "CUDA", "FastAPI"],
+    category: "AI/Finance", 
+    status: "Completed",
+    url: "https://github.com/QuantumByte47/Qwen3-Finance-AI-website-"
   },
   {
-    title: "Multi-modal Voice Systems",
-    description: "Real-time AI voice systems with speech recognition and emotion awareness.",
-    technologies: ["Python", "Speech AI", "Deep Learning"],
-    category: "AI Systems",
-    status: "Completed"
+    title: "Neural Code Intelligence Suite",
+    description: "Advanced AI-powered code analysis platform with automated refactoring, vulnerability detection, and intelligent code generation using transformer models.",
+    technologies: ["Python", "Transformers", "Static Analysis", "AI"],
+    category: "AI/DevTools",
+    status: "Pending",
+    url: "#"
   },
   {
-    title: "Neural Language Translator",
-    description: "Real-time multilingual translation system with context awareness and cultural adaptation.",
-    technologies: ["Transformer", "BERT", "PyTorch", "NLP"],
+    title: "WT AI Editor SaaS",
+    description: "Comprehensive SaaS platform leveraging AI for content creation, image generation, and resume reviewing.",
+    technologies: ["React 19", "Express.js", "PostgreSQL", "Gemini API"],
+    category: "AI/SaaS",
+    status: "Completed",
+    url: "https://github.com/QuantumByte47/WT-AI-Editor-SAAS"
+  },
+  {
+    title: "Multimodal AI Voice Agents",
+    description: "Advanced multimodal AI system with voice recognition, emotion detection, and real-time conversational AI capabilities.",
+    technologies: ["Python", "Transformers", "Speech AI", "Computer Vision"],
+    category: "AI/Multimodal",
+    status: "In Progress",
+    url: "https://github.com/QuantumByte47/Multimodal-AI-Voice-Agents"
+  },
+  {
+    title: "Quantum-Enhanced ML Framework",
+    description: "Revolutionary machine learning framework leveraging quantum computing principles for exponentially faster model training and optimization.",
+    technologies: ["Python", "Quantum Computing", "ML", "Research"],
+    category: "AI/Research",
+    status: "Pending",
+    url: "#"
+  },
+  {
+    title: "MCP Server RAG LLMs",
+    description: "Model Context Protocol servers with RAG implementation, prompt engineering toolkit, and LLM orchestration for enterprise workflows.",
+    technologies: ["Python", "RAG", "LLMs", "MCP Protocol"],
     category: "AI/ML Enterprise",
-    status: "In Progress"
-  },
-  {
-    title: "Smart IoT Analytics Platform",
-    description: "IoT data processing platform with predictive maintenance and anomaly detection.",
-    technologies: ["Python", "IoT", "Time Series", "ML"],
-    category: "Data Science",
-    status: "In Progress"
-  },
-  {
-    title: "3D Scene Generation AI",
-    description: "Advanced 3D scene generation using Neural Radiance Fields and Gaussian Splatting.",
-    technologies: ["NeRF", "Gaussian Splatting", "3D AI"],
-    category: "AI/Creative",
-    status: "Working"
-  },
-  {
-    title: "Distributed AI Training",
-    description: "Scalable distributed training infrastructure for large language models and multimodal AI.",
-    technologies: ["Kubernetes", "PyTorch", "Distributed Training"],
-    category: "AI Systems", 
-    status: "Working"
+    status: "Completed",
+    url: "https://github.com/QuantumByte47/MCP-Server-RAG-LLMs"
   }
 ];
 
@@ -86,9 +94,12 @@ export const Projects = () => {
           const color = colors[index];
           
           return (
-            <div
+            <a
               key={project.title}
-              className={`relative h-auto w-full bg-white border border-gray-300 rounded-xl p-6 overflow-hidden shadow-lg`}
+              href={project.url}
+              target={project.url !== "#" ? "_blank" : "_self"}
+              rel={project.url !== "#" ? "noopener noreferrer" : ""}
+              className={`relative h-auto w-full bg-white border border-gray-300 rounded-xl p-6 overflow-hidden shadow-lg cursor-pointer block transition-transform hover:scale-105`}
             >
               
               <div className="relative z-10">
@@ -122,7 +133,7 @@ export const Projects = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </a>
           );
         })}
       </div>

@@ -8,95 +8,68 @@ import {
 
 const githubProjects = [
   {
-    name: "AI-Powered-Chatbot",
-    description: "Intelligent chatbot using advanced NLP models and machine learning algorithms for enhanced user interactions.",
-    language: "Python",
-    stars: 45,
-    forks: 12,
-    updated: "2 days ago",
-    url: "https://github.com/QuantumByte47/AI-Powered-Chatbot"
-  },
-  {
-    name: "Real-Time-Data-Analytics",
-    description: "Real-time data processing and analytics dashboard with live visualization and automated insights.",
-    language: "JavaScript", 
-    stars: 78,
-    forks: 23,
-    updated: "5 days ago",
-    url: "https://github.com/QuantumByte47/Real-Time-Data-Analytics"
-  },
-  {
-    name: "ML-Model-Deployment",
-    description: "Production-ready machine learning model deployment pipeline with Docker and cloud integration.",
-    language: "Python",
-    stars: 92,
-    forks: 31,
-    updated: "1 week ago",
-    url: "https://github.com/QuantumByte47/ML-Model-Deployment"
-  },
-  {
-    name: "Voice-Recognition-System",
-    description: "Advanced voice recognition and speech-to-text system with real-time processing capabilities.",
-    language: "Python",
-    stars: 67,
-    forks: 18,
-    updated: "3 days ago",
-    url: "https://github.com/QuantumByte47/Voice-Recognition-System"
-  },
-  {
-    name: "Financial-Forecasting-AI",
-    description: "AI-driven financial forecasting system with deep learning models for market prediction.",
-    language: "Python",
-    stars: 124,
-    forks: 45,
-    updated: "1 day ago",
-    url: "https://github.com/QuantumByte47/Financial-Forecasting-AI"
-  },
-  {
-    name: "Automated-Testing-Suite",
-    description: "Comprehensive automated testing framework for data science and machine learning projects.",
-    language: "Python",
-    stars: 38,
-    forks: 9,
-    updated: "6 days ago",
-    url: "https://github.com/QuantumByte47/Automated-Testing-Suite"
-  },
-  {
-    name: "Computer-Vision-Pipeline",
-    description: "End-to-end computer vision pipeline for object detection and image classification tasks.",
-    language: "Python",
-    stars: 156,
-    forks: 62,
-    updated: "4 days ago",
-    url: "https://github.com/QuantumByte47/Computer-Vision-Pipeline"
-  },
-  {
-    name: "NLP-Text-Processing",
-    description: "Advanced natural language processing toolkit for text analysis and sentiment classification.",
-    language: "Python",
-    stars: 89,
-    forks: 27,
-    updated: "1 week ago",
-    url: "https://github.com/QuantumByte47/NLP-Text-Processing"
-  },
-  {
-    name: "Data-Visualization-Tools",
-    description: "Interactive data visualization library with custom charts and real-time data binding.",
+    name: "wortholic-with-loveable",
+    description: "AI-powered React app builder that instantly clones websites and generates code with advanced automation capabilities.",
     language: "TypeScript",
-    stars: 73,
-    forks: 21,
-    updated: "2 days ago",
-    url: "https://github.com/QuantumByte47/Data-Visualization-Tools"
+    stars: 0,
+    forks: 0,
+    updated: "recently",
+    url: "https://github.com/QuantumByte47/wortholic-with-loveable"
   },
   {
-    name: "API-Integration-Framework",
-    description: "Robust API integration framework for seamless data exchange and service orchestration.",
-    language: "Node.js",
-    stars: 95,
-    forks: 34,
-    updated: "3 days ago",
-    url: "https://github.com/QuantumByte47/API-Integration-Framework"
-  }
+    name: "wortholic-researcher",
+    description: "AI-powered research assistant with multi-agent capabilities, web scraping, and comprehensive document analysis tools.",
+    language: "Python",
+    stars: 0,
+    forks: 0,
+    updated: "recently",
+    url: "https://github.com/QuantumByte47/wortholic-researcher"
+  },
+  {
+    name: "wortholic-ai",
+    description: "Multi-model AI assistant platform with GPT-4, Claude, Gemini Pro & DeepSeek integration for enterprise productivity.",
+    language: "TypeScript",
+    stars: 0,
+    forks: 0,
+    updated: "recently",
+    url: "https://github.com/QuantumByte47/wortholic-ai"
+  },
+  {
+    name: "WT-AI-Editor-SAAS",
+    description: "SaaS platform with AI-powered tools for writing, image generation, editing, and resume optimization using Google Gemini.",
+    language: "JavaScript",
+    stars: 0,
+    forks: 0,
+    updated: "recently",
+    url: "https://github.com/QuantumByte47/WT-AI-Editor-SAAS"
+  },
+  {
+    name: "RAG-Legal-Assistant",
+    description: "AI-powered legal assistant using RAG architecture, Pinecone vector database, and LangChain for document processing.",
+    language: "Python",
+    stars: 0,
+    forks: 0,
+    updated: "recently",
+    url: "https://github.com/QuantumByte47/RAG-Legal-Assistant"
+  },
+  {
+    name: "multi-tenant-voice-ai-platform",
+    description: "Scalable infrastructure for building and managing enterprise-grade voice agents with multi-tenant architecture.",
+    language: "Python",
+    stars: 0,
+    forks: 0,
+    updated: "recently",
+    url: "https://github.com/QuantumByte47/multi-tenant-voice-ai-platform"
+  },
+  {
+    name: "Qwen3-Finance-AI-website-",
+    description: "GPU-accelerated financial AI system powered by Qwen3-1.7B with specialized finance reasoning and real-time analysis.",
+    language: "HTML",
+    stars: 0,
+    forks: 0,
+    updated: "recently",
+    url: "https://github.com/QuantumByte47/Qwen3-Finance-AI-website-"
+  },
 ];
 
 const getLanguageColor = (language: string) => {
@@ -104,6 +77,9 @@ const getLanguageColor = (language: string) => {
     Python: "bg-yellow-500",
     JavaScript: "bg-yellow-400", 
     TypeScript: "bg-blue-500",
+    HTML: "bg-orange-500",
+    Dart: "bg-blue-400",
+    "Jupyter Notebook": "bg-orange-400",
     "Node.js": "bg-green-500",
     Java: "bg-orange-500",
     Go: "bg-cyan-400",
@@ -130,7 +106,7 @@ export const GitHubSection = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-[1400px] w-full z-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-[1200px] w-full z-10">
         {githubProjects.map((project, index) => (
           <a
             key={project.name}
