@@ -1,26 +1,25 @@
 'use client';
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { 
-  EnvelopeIcon, 
-  ChevronDownIcon,
-  SparklesIcon,
-  BoltIcon,
+import {
   Bars3Icon,
   XMarkIcon
 } from "@heroicons/react/24/solid";
 
 const navLinks = [
-  { title: "Home", link: "/" },
+  { title: "About", link: "/#about" },
   { title: "Skills", link: "/#skills" },
   { title: "Projects", link: "/#projects" },
-  { title: "GitHub", link: "/#github" },
-  { title: "About", link: "/#about" }
+  { title: "Experience", link: "/#experience" },
+];
+
+const socialLinks = [
+  { title: "LinkedIn", link: "https://www.linkedin.com/in/islamtalha", icon: "LI" },
+  { title: "GitHub", link: "https://github.com/QuantumByte47", icon: "GH" },
 ];
 
 export const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
   const [mounted, setMounted] = useState(false);
 
@@ -35,94 +34,88 @@ export const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  if (!mounted) {
-    return (
-      <div className="w-full h-[65px] fixed top-0 z-50 px-10 bg-white border-b border-gray-200">
-        <div className="w-full h-full flex items-center justify-between m-auto px-[10px]">
-          <Link href="/" className="flex items-center">
-            <div className="flex font-bold text-gray-800">
-              <span className="text-blue-800 text-xl">
-                Portfolio
-              </span>
-            </div>
-          </Link>
-          <div className="hidden lg:flex w-auto h-full flex-row items-center justify-center flex-1">
-            <div className="flex items-center justify-center gap-8 h-auto px-6 py-2 rounded-full text-gray-800">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.title}
-                  href={link.link}
-                  className="cursor-pointer font-medium py-2 px-3 rounded-lg"
-                >
-                  {link.title}
-                </Link>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  if (!mounted) return null;
 
   return (
-    <div className="w-full h-[65px] fixed top-0 z-50 px-10 bg-white border-b border-gray-200">
-      {/* Navbar Container */}
-      <div className="w-full h-full flex items-center justify-between m-auto px-[10px]">
-        {/* Logo + Name */}
-        <Link
-          href="/"
-          className="flex items-center"
-        >
-          <div className="flex font-bold text-gray-800">
-            <span className="text-blue-800 text-xl">
-              Portfolio
-            </span>
-          </div>
+    <div className={`w-full h-[65px] fixed top-0 z-50 px-4 md:px-10 transition-all duration-300 ${scrolled ? "bg-[#0300142e] backdrop-blur-xl border-b border-[#2A0E61]/30 shadow-lg shadow-[#2A0E61]/20" : "bg-transparent"
+      }`}>
+      <div className="w-full h-full flex items-center justify-between m-auto max-w-[1400px]">
+
+        {/* Logo */}
+        <Link href="/" className="flex items-center gap-2 group">
+          <span className="font-bold text-xl text-white hover:text-gray-300 transition-all duration-500 cursor-pointer tracking-wider">
+            Talha Islam
+          </span>
         </Link>
 
-        {/* Web Navbar */}
-        <div className="hidden lg:flex w-auto h-full flex-row items-center justify-center flex-1">
-          <div className="flex items-center justify-center gap-8 h-auto px-6 py-2 rounded-full text-black">
+        {/* Desktop Nav */}
+        <div className="hidden lg:flex items-center gap-8">
+          <div className="flex items-center gap-6 border border-[#2A0E61]/30 bg-[#0300142e] px-6 py-2 rounded-full backdrop-blur-md shadow-inner shadow-[#2A0E61]/10">
             {navLinks.map((link) => (
               <Link
                 key={link.title}
                 href={link.link}
-                className="cursor-pointer font-medium py-2 px-3 rounded-lg"
+                className="text-gray-300 hover:text-white text-sm font-medium transition-all duration-200 cursor-pointer hover:scale-105"
               >
                 {link.title}
               </Link>
             ))}
           </div>
+
+          <div className="flex gap-4">
+            {socialLinks.map((social) => (
+              <a
+                key={social.title}
+                href={social.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-400 hover:text-cyan-400 font-bold transition-colors text-sm tracking-wide uppercase"
+              >
+                {social.title}
+              </a>
+            ))}
+          </div>
         </div>
 
-
-        {/* Hamburger Menu */}
+        {/* Mobile Menu Button */}
         <button
-          className="lg:hidden text-gray-800 focus:outline-none p-2 rounded-lg"
+          className="lg:hidden text-gray-200 focus:outline-none hover:text-purple-400 transition-colors"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
           {isMobileMenuOpen ? (
-            <XMarkIcon className="w-6 h-6" />
+            <XMarkIcon className="w-8 h-8" />
           ) : (
-            <Bars3Icon className="w-6 h-6" />
+            <Bars3Icon className="w-8 h-8" />
           )}
         </button>
       </div>
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="absolute top-[65px] left-0 w-full bg-white lg:hidden border-t border-gray-200 overflow-hidden shadow-lg">
-          <div className="p-6">
-            <div className="flex flex-col gap-4">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.title}
-                  href={link.link}
-                  className="block py-3 px-4 text-lg font-medium text-gray-800 rounded-lg"
-                  onClick={() => setIsMobileMenuOpen(false)}
+        <div className="absolute top-[65px] left-0 w-full bg-[#030014]/95 backdrop-blur-xl border-b border-[#2A0E61] lg:hidden shadow-2xl z-40">
+          <div className="flex flex-col p-6 gap-4">
+            {navLinks.map((link) => (
+              <Link
+                key={link.title}
+                href={link.link}
+                className="text-gray-200 text-lg font-medium hover:text-purple-400 transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {link.title}
+              </Link>
+            ))}
+            <div className="h-[1px] bg-[#2A0E61]/50 my-2"></div>
+            <div className="flex gap-6">
+              {socialLinks.map((social) => (
+                <a
+                  key={social.title}
+                  href={social.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-300 hover:text-purple-400 font-medium"
                 >
-                  {link.title}
-                </Link>
+                  {social.title}
+                </a>
               ))}
             </div>
           </div>

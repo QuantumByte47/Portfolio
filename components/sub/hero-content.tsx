@@ -1,51 +1,107 @@
 "use client";
 
+import { motion } from "framer-motion";
+import { slideInFromLeft, slideInFromRight, slideInFromTop } from "@/utils/motion";
+import { SparklesIcon } from "@heroicons/react/24/solid";
+import { TypeAnimation } from 'react-type-animation';
+
 export const HeroContent = () => {
   return (
-    <div className="flex flex-row items-center justify-between px-20 mt-20 w-full z-[20] max-w-[1400px] mx-auto">
-      {/* Left side - Text content */}
-      <div className="h-full w-1/2 flex flex-col gap-3 justify-center text-start pr-10">
-        <div className="flex flex-col gap-4 text-6xl text-bold text-black max-w-[600px] w-auto h-auto">
+    <motion.div
+      initial="hidden"
+      animate="visible"
+      className="flex flex-row items-center justify-center px-20 mt-40 w-full z-[20]"
+    >
+      <div className="h-full w-full flex flex-col gap-5 justify-center m-auto text-start">
+        <motion.div
+          variants={slideInFromTop}
+          className="Welcome-box py-[8px] px-[7px] border border-[#7042f88b] opacity-[0.9]"
+        >
+          <SparklesIcon className="text-[#b49bff] mr-[10px] h-5 w-5" />
+          <h1 className="Welcome-text text-[13px]">
+            AI Engineer Portfolio
+          </h1>
+        </motion.div>
+
+        <motion.div
+          variants={slideInFromLeft(0.5)}
+          className="flex flex-col gap-6 mt-6 text-6xl font-bold text-white max-w-[600px] w-auto h-auto"
+        >
           <span>
-            Hi, I&apos;m{" "}
-            <span className="text-blue-800">
-              Talha Islam
+            Providing
+            <span className="text-white">
+              {" "}
+              the best{" "}
             </span>
+            project experience
           </span>
-        </div>
+        </motion.div>
 
-        <p className="text-lg text-gray-600 my-3 max-w-[600px]">
-          AI Engineer & Data Scientist with 6+ years of experience building real-time AI systems, 
-          multi-modal platforms, and enterprise-grade automation solutions. Specializing in 
-          machine learning, deep learning, and scalable AI applications.
-        </p>
+        <motion.div
+          variants={slideInFromLeft(0.8)}
+          className="text-lg text-gray-400 my-5 max-w-[600px]"
+        >
+          <div className="text-2xl font-semibold mb-2 text-white">
+            I am a{" "}
+            <TypeAnimation
+              sequence={[
+                'Lead AI Engineer',
+                1000,
+                'Data Scientist',
+                1000,
+                'Voice AI Expert',
+                1000,
+                'RAG Architect',
+                1000
+              ]}
+              wrapper="span"
+              speed={50}
+              repeat={Infinity}
+              className="text-white"
+            />
+          </div>
+          <p className="leading-relaxed">
+            4+ years of experience building real-time AI systems,
+            multi-modal platforms, and enterprise-grade platforms.
+          </p>
+        </motion.div>
 
-        <div className="flex gap-4">
+        <motion.div
+          variants={slideInFromLeft(1)}
+          className="flex gap-4"
+        >
+          <a
+            href="#projects"
+            className="py-2 px-4 button-primary text-center text-white cursor-pointer rounded-lg max-w-[200px] transition-all duration-300 hover:shadow-[0_0_20px_rgba(112,66,248,0.5)]"
+          >
+            View Projects
+          </a>
           <a
             href="mailto:Talhaislam471@gmail.com"
-            className="py-3 px-6 text-center text-white cursor-pointer rounded-lg border border-blue-800 bg-blue-800 hover:bg-blue-900 transition-colors duration-300"
+            className="py-2 px-4 border border-[#7042f88b] text-center text-white cursor-pointer rounded-lg max-w-[200px] hover:bg-[#7042f81a] transition-all duration-300 hover:border-[#7042f8]"
           >
             Contact Me
           </a>
-          <a
-            href="#skills"
-            className="py-3 px-6 border border-black text-center text-black cursor-pointer rounded-lg hover:bg-gray-100 transition-colors duration-300"
-          >
-            View Skills
-          </a>
-        </div>
+        </motion.div>
       </div>
-      
-      {/* Right side - Image */}
-      <div className="w-1/2 flex justify-center items-center">
-        <div className="relative">
+
+      <motion.div
+        variants={slideInFromRight(0.8)}
+        className="w-full h-full flex justify-center items-center"
+      >
+        <div className="relative w-[500px] h-[500px] group">
+          {/* Glow Effect */}
+          <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-full blur-[120px] opacity-20 group-hover:opacity-40 transition-opacity duration-1000 animate-pulse"></div>
+
           <img
             src="/img1.png"
-            alt="Talha Islam"
-            className="w-80 h-80 object-cover rounded-full shadow-lg"
+            alt="work icons"
+            height={650}
+            width={650}
+            className="relative z-10 drop-shadow-[0_0_15px_rgba(112,66,248,0.5)] rounded-full object-cover w-[500px] h-[500px]"
           />
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };

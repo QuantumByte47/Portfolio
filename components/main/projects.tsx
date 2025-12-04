@@ -1,5 +1,8 @@
 "use client";
 
+import React from "react";
+import { motion } from "framer-motion";
+
 const projects = [
   {
     title: "Wortholic AI Assistant",
@@ -21,7 +24,7 @@ const projects = [
     title: "Qwen3 Finance AI System",
     description: "GPU-accelerated financial AI system powered by Qwen3-1.7B with specialized finance reasoning and cyberpunk UI.",
     technologies: ["Python", "PyTorch", "CUDA", "FastAPI"],
-    category: "AI/Finance", 
+    category: "AI/Finance",
     status: "Completed",
     url: "https://github.com/QuantumByte47/Qwen3-Finance-AI-website-"
   },
@@ -71,61 +74,56 @@ export const Projects = () => {
   return (
     <section
       id="projects"
-      className="flex flex-col items-center justify-center gap-6 relative overflow-hidden py-12 px-4 bg-white"
+      className="flex flex-col items-center justify-center gap-6 relative overflow-hidden py-20 px-4 z-20"
     >
-      <div className="w-full h-auto flex flex-col items-center justify-center">
-        <div className="text-[40px] text-blue-800 font-bold mt-[10px] text-center mb-[15px]">
+      <div className="w-full h-auto flex flex-col items-center justify-center mb-10">
+        <div className="text-[40px] font-bold mt-[10px] text-center mb-[15px] text-white">
           Featured Projects
         </div>
 
-        <div className="text-[20px] text-black mb-10 mt-[5px] text-center max-w-[800px]">
+        <div className="text-[20px] text-gray-300 mt-[5px] text-center max-w-[800px]">
           Enterprise-grade AI solutions and data science projects showcasing expertise in real-time systems, machine learning, and intelligent automation.
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-[1400px] w-full z-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-[1400px] w-full z-10">
         {projects.map((project, index) => {
-          const colors = [
-            { theme: 'purple', border: 'border-purple-500/30', bg: 'from-purple-500/5 to-indigo-500/5', text: 'text-purple-300', dot: 'bg-purple-400', tag: 'bg-purple-500/20 text-purple-300' },
-            { theme: 'cyan', border: 'border-cyan-500/30', bg: 'from-cyan-500/5 to-blue-500/5', text: 'text-cyan-300', dot: 'bg-cyan-400', tag: 'bg-cyan-500/20 text-cyan-300' },
-            { theme: 'green', border: 'border-green-500/30', bg: 'from-green-500/5 to-emerald-500/5', text: 'text-green-300', dot: 'bg-green-400', tag: 'bg-green-500/20 text-green-300' },
-            { theme: 'blue', border: 'border-blue-500/30', bg: 'from-blue-500/5 to-indigo-500/5', text: 'text-blue-300', dot: 'bg-blue-400', tag: 'bg-blue-500/20 text-blue-300' }
-          ];
-          const color = colors[index];
-          
           return (
-            <a
+            <motion.a
               key={project.title}
               href={project.url}
               target={project.url !== "#" ? "_blank" : "_self"}
               rel={project.url !== "#" ? "noopener noreferrer" : ""}
-              className={`relative h-auto w-full bg-white border border-gray-300 rounded-xl p-6 overflow-hidden shadow-lg cursor-pointer block transition-transform hover:scale-105`}
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3, delay: index * 0.05 }}
+              whileHover={{ scale: 1.05, rotate: 1 }}
+              className={`relative h-auto w-full bg-[#110C2A]/30 backdrop-blur-sm border border-[#2A0E61]/50 rounded-xl p-6 overflow-hidden shadow-lg cursor-pointer block transition-all duration-300 hover:border-purple-500/50 hover:shadow-[0_0_20px_rgba(112,66,248,0.3)] group`}
             >
-              
+
               <div className="relative z-10">
-                <div className="flex justify-between items-start mb-3">
-                  <span className={`px-2 py-1 text-xs font-medium rounded-full bg-gray-200 text-blue-600`}>
+                <div className="flex justify-between items-start mb-4">
+                  <span className={`px-2 py-1 text-xs font-medium rounded-full bg-purple-900/30 text-purple-300 border border-purple-500/30`}>
                     {project.category}
                   </span>
-                  <span className={`px-2 py-1 text-xs font-medium rounded-full ${
-                    project.status === 'Completed' ? 'bg-green-100 text-green-700' :
-                    project.status === 'In Progress' ? 'bg-blue-100 text-blue-700' :
-                    'bg-orange-100 text-orange-700'
-                  }`}>
+                  <span className={`px-2 py-1 text-xs font-medium rounded-full ${project.status === 'Completed' ? 'bg-green-900/30 text-green-300 border border-green-500/30' :
+                      project.status === 'In Progress' ? 'bg-blue-900/30 text-blue-300 border border-blue-500/30' :
+                        'bg-orange-900/30 text-orange-300 border border-orange-500/30'
+                    }`}>
                     {project.status}
                   </span>
                 </div>
-                
-                <h3 className={`text-lg font-bold text-blue-800 mb-3`}>{project.title}</h3>
-                
-                <p className="text-black text-sm mb-4 leading-relaxed">{project.description}</p>
-                
+
+                <h3 className={`text-xl font-bold text-white mb-3 group-hover:text-white transition-all duration-300`}>{project.title}</h3>
+
+                <p className="text-gray-300 text-sm mb-6 leading-relaxed h-[80px] overflow-hidden">{project.description}</p>
+
                 <div>
-                  <div className="flex flex-wrap gap-1">
+                  <div className="flex flex-wrap gap-2">
                     {project.technologies.map((tech) => (
                       <span
                         key={tech}
-                        className="px-2 py-1 text-xs bg-gray-100 border border-gray-300 rounded text-black"
+                        className="px-2 py-1 text-xs bg-[#2A0E61]/50 border border-purple-500/20 rounded text-gray-300 group-hover:border-cyan-500/30 transition-colors"
                       >
                         {tech}
                       </span>
@@ -133,7 +131,7 @@ export const Projects = () => {
                   </div>
                 </div>
               </div>
-            </a>
+            </motion.a>
           );
         })}
       </div>

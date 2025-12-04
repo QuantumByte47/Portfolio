@@ -1,0 +1,13 @@
+<svg width="650" height="650" viewBox="0 0 650 650" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="325" cy="325" r="325" fill="url(#paint0_radial_1_2)"/>
+<defs>
+<radialGradient id="paint0_radial_1_2" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(325 325) rotate(90) scale(325)">
+<stop stop-color="#7042F8" stop-opacity="0.2"/>
+<stop offset="1" stop-color="#7042F8" stop-opacity="0"/>
+</radialGradient>
+</defs>
+<!-- Placeholder Icon Content -->
+<rect x="200" y="200" width="250" height="250" rx="20" fill="#2A0E61" stroke="#7042F8" stroke-width="2"/>
+<path d="M325 250L400 375H250L325 250Z" fill="#00D8FF"/>
+<circle cx="325" cy="325" r="50" fill="#7042F8" fill-opacity="0.5"/>
+</svg>

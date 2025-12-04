@@ -26,12 +26,16 @@ export default function RootLayout({ children }: PropsWithChildren) {
     <html lang="en">
       <body
         className={cn(
-          "bg-white overflow-y-scroll overflow-x-hidden",
+          "bg-[#030014] text-white overflow-y-scroll overflow-x-hidden relative",
           inter.className
         )}
       >
+        <StarsCanvas />
         <Navbar />
-        {children}
+        {/* Wrap children in a relative div with higher z-index to ensure they are above the stars */}
+        <div className="relative z-20">
+          {children}
+        </div>
         <Footer />
       </body>
     </html>
