@@ -1,24 +1,38 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Manrope, Sora } from "next/font/google";
 import type { PropsWithChildren } from "react";
 
-import { Footer } from "@/components/main/footer";
-import { Navbar } from "@/components/main/navbar";
-import { StarsCanvas } from "@/components/main/star-background";
 import { cn } from "@/lib/utils";
 
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const headingFont = Sora({
+  subsets: ["latin"],
+  variable: "--font-heading",
+});
+
+const bodyFont = Manrope({
+  subsets: ["latin"],
+  variable: "--font-body",
+});
 
 export const viewport: Viewport = {
-  themeColor: "#030014",
+  themeColor: "#f97316",
 };
 
 export const metadata: Metadata = {
-  title: "Talha Islam - Data Scientist & AI Developer",
-  description: "Portfolio of Talha Islam, a skilled Data Scientist and AI Developer with 4+ years of experience in machine learning and data analysis.",
-  keywords: ["data scientist", "AI developer", "machine learning", "python", "portfolio"]
+  title: "Talha Islam | Lead AI Engineer Portfolio",
+  description:
+    "Portfolio of Talha Islam: enterprise AI engineering, LLM systems, RAG architecture, voice AI, and automation products.",
+  keywords: [
+    "lead ai engineer",
+    "llm engineering",
+    "rag architecture",
+    "voice ai",
+    "ai automation",
+    "ai saas",
+    "portfolio",
+  ],
 };
 
 export default function RootLayout({ children }: PropsWithChildren) {
@@ -26,17 +40,12 @@ export default function RootLayout({ children }: PropsWithChildren) {
     <html lang="en">
       <body
         className={cn(
-          "bg-[#030014] text-white overflow-y-scroll overflow-x-hidden relative",
-          inter.className
+          "min-h-screen overflow-x-hidden bg-background text-foreground antialiased",
+          headingFont.variable,
+          bodyFont.variable
         )}
       >
-        <StarsCanvas />
-        <Navbar />
-        {/* Wrap children in a relative div with higher z-index to ensure they are above the stars */}
-        <div className="relative z-20">
-          {children}
-        </div>
-        <Footer />
+        {children}
       </body>
     </html>
   );
