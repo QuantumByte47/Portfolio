@@ -22,6 +22,18 @@ export type ProductItem = {
   stack: string[];
 };
 
+export type LiveProductBuild = {
+  name: string;
+  category: string;
+  url: string;
+  image: string;
+  imageFit: "cover" | "contain";
+  role: string;
+  summary: string;
+  highlights: string[];
+  stack: string[];
+};
+
 export const keyMetrics: Metric[] = [
   {
     value: "100+",
@@ -37,11 +49,6 @@ export const keyMetrics: Metric[] = [
     value: "35+",
     label: "Businesses Automated",
     detail: "n8n, Make, Zapier, CRM and communication workflows at business scale.",
-  },
-  {
-    value: "10K+",
-    label: "Concurrent Calls",
-    detail: "High-concurrency voice AI call center architecture and routing.",
   },
   {
     value: "50M+",
@@ -73,6 +80,89 @@ export const credibilityPoints = [
   "Launched dozens of real-world AI products spanning voice, retrieval, analytics, and workflow automation.",
 ];
 
+export const liveProductBuilds: LiveProductBuild[] = [
+  {
+    name: "NaturalFlow.ai",
+    category: "AI Communication Platform",
+    url: "https://www.naturalflow.ai/",
+    image: "/images/live-products/naturalflow-hero.jpg",
+    imageFit: "cover",
+    role: "Product architecture, agent orchestration, and delivery with the engineering team",
+    summary:
+      "Live AI communication platform for inbound calls, outbound sales, SMS conversations, chatbots, routing, scheduling, analytics, and business integrations.",
+    highlights: [
+      "Designed the agent workflow layer across voice, chat, and messaging channels.",
+      "Architected call routing, lead qualification, appointment scheduling, and support flows.",
+      "Shaped production integrations with CRM, calendar, analytics, and communication systems.",
+    ],
+    stack: ["Voice AI", "LLM Agents", "STT/TTS", "Twilio", "CRM Integrations", "Analytics"],
+  },
+  {
+    name: "WealthNX.ai",
+    category: "Personal Financial AI Copilot",
+    url: "https://www.wealthnx.ai/",
+    image: "/images/live-products/wealthnx-hero.png",
+    imageFit: "contain",
+    role: "Financial AI architecture, multi-agent systems, and product delivery with the team",
+    summary:
+      "Multi-agent finance product that brings accounts, market context, stock research, crypto intelligence, accountant workflows, and custom visual dashboards into one AI-led experience.",
+    highlights: [
+      "Architected specialized agents for spending, market intelligence, crypto, and build-mode analytics.",
+      "Built the foundation for read-only financial visibility, explanations, and dashboard generation.",
+      "Connected real-time and historical data workflows for clearer financial understanding.",
+    ],
+    stack: ["Financial AI", "Multi-Agent Systems", "RAG", "Market Data", "Dashboards", "MLOps"],
+  },
+  {
+    name: "Galileo.ai",
+    category: "AI Evaluation & Observability",
+    url: "https://galileo.ai/",
+    image: "/images/live-products/galileo.png",
+    imageFit: "cover",
+    role: "Eval engineering, observability workflows, and AI reliability architecture with teams",
+    summary:
+      "AI observability and evaluation platform for offline evals, production guardrails, RAG quality, agent behavior analysis, safety checks, traces, and deployment confidence.",
+    highlights: [
+      "Contributed to evaluation flows that connect development datasets with production AI behavior.",
+      "Worked on reliability patterns for traces, failure analysis, guardrails, and model feedback loops.",
+      "Supported architecture for RAG and agent eval use cases across production environments.",
+    ],
+    stack: ["LLM Evaluation", "RAG Evals", "Guardrails", "Tracing", "Observability", "Data Pipelines"],
+  },
+  {
+    name: "Robin AI",
+    category: "Legal Intelligence Platform",
+    url: "https://robinai.com/",
+    image: "/images/live-products/robin.jpg",
+    imageFit: "cover",
+    role: "Legal AI architecture, contract intelligence systems, and team-based delivery",
+    summary:
+      "Enterprise legal AI platform for contract review, document search, legal chat, obligations tracking, workspaces, and secure collaboration for legal teams.",
+    highlights: [
+      "Helped shape contract intelligence workflows for review, analysis, search, and collaboration.",
+      "Designed AI-assisted document experiences for legal teams working across large contract sets.",
+      "Focused on secure, enterprise-ready patterns for sensitive legal data and team workflows.",
+    ],
+    stack: ["Legal AI", "Document Intelligence", "Search", "LLM Chat", "Workspaces", "Security"],
+  },
+  {
+    name: "Genie AI",
+    category: "AI Contracting Platform",
+    url: "https://www.genieai.co/",
+    image: "/images/live-products/genie.png",
+    imageFit: "cover",
+    role: "Legal agent architecture, document workflows, and product engineering with teams",
+    summary:
+      "AI contracting platform for drafting, reviewing, redlining, negotiating, organizing, and extracting insights from complex business agreements.",
+    highlights: [
+      "Worked on agentic legal workflows across drafting, review, playbooks, and negotiation support.",
+      "Supported document intelligence patterns for multi-document deals and structured insights.",
+      "Contributed to product architecture for business teams needing faster contract operations.",
+    ],
+    stack: ["Legal Agents", "Document AI", "Playbooks", "Contract Review", "Tracked Changes", "Integrations"],
+  },
+];
+
 export const experienceTimeline: ExperienceItem[] = [
   {
     role: "Lead AI Engineer",
@@ -83,7 +173,7 @@ export const experienceTimeline: ExperienceItem[] = [
       "Leading AI product strategy and engineering delivery across voice AI, RAG, and cloud-native SaaS platforms.",
     impact: [
       "Built NaturalFlow.ai with custom LLM integration and agentic workflow orchestration.",
-      "Architected call center platform handling 10K+ concurrent calls.",
+      "Architected high-concurrency call center platform infrastructure.",
       "Scaled multidisciplinary AI, data, and full-stack teams for enterprise client delivery.",
     ],
     stack: [
@@ -172,24 +262,12 @@ export const experienceTimeline: ExperienceItem[] = [
 
 export const featuredProducts: ProductItem[] = [
   {
-    name: "WealthNX.ai",
-    category: "Financial Intelligence Platform",
-    summary:
-      "Bloomberg-style AI platform for hyper-personalized market intelligence and portfolio decision support.",
-    outcomes: [
-      "Processed 10M+ financial documents with advanced RAG.",
-      "Delivered sub-second query responses with 91% prediction accuracy.",
-      "Orchestrated multi-agent workflows for risk, sentiment, and signal generation.",
-    ],
-    stack: ["GPT-4", "Claude", "RAG", "Pinecone", "Qdrant", "FastAPI", "Next.js"],
-  },
-  {
     name: "Microsoft Call Center AI (Customized)",
     category: "Enterprise Voice AI",
     summary:
       "Extensively customized voice intelligence platform for enterprise support and sales operations.",
     outcomes: [
-      "Handled 10K+ simultaneous calls with 99.7% uptime.",
+      "Handled high-volume simultaneous calls with 99.7% uptime.",
       "Reduced average handle time by 65%.",
       "Improved first-call resolution by 40%.",
     ],
@@ -242,39 +320,6 @@ export const featuredProducts: ProductItem[] = [
       "Integrated voice, SMS, WhatsApp, email, and CRM systems in one pipeline.",
     ],
     stack: ["LangChain", "AutoGen", "CrewAI", "n8n", "Make", "Zapier", "Twilio"],
-  },
-];
-
-export const capabilityGroups = [
-  {
-    title: "AI Systems",
-    items: [
-      "Large language model architecture and optimization",
-      "Advanced and hybrid RAG design",
-      "GraphRAG and multi-hop reasoning",
-      "LLM evaluation, observability, and QA",
-      "Custom fine-tuning (LoRA, QLoRA)",
-    ],
-  },
-  {
-    title: "Product Engineering",
-    items: [
-      "Multi-tenant SaaS architecture",
-      "API and microservice design",
-      "Cloud deployment and platform reliability",
-      "Real-time analytics and dashboard systems",
-      "Secure integrations with enterprise systems",
-    ],
-  },
-  {
-    title: "AI Full-Stack Development",
-    items: [
-      "Responsive frontend architecture with modern component systems",
-      "API-first backend engineering for SaaS and enterprise workflows",
-      "End-to-end AI feature integration in web products",
-      "Security, observability, and production hardening",
-      "Scalable deployment strategy across cloud environments",
-    ],
   },
 ];
 
@@ -339,58 +384,6 @@ export const advancedAiTooling = [
   "Agent Frameworks (LangGraph, CrewAI, AutoGen)",
 ];
 
-export type GitHubProjectFallback = {
-  name: string;
-  description: string;
-  url: string;
-  tags: string[];
-};
-
-export const githubFallbackProjects: GitHubProjectFallback[] = [
-  {
-    name: "Wortholic AI Assistant",
-    description:
-      "Enterprise AI assistant platform with multi-model support and production deployment workflows.",
-    url: "https://github.com/QuantumByte47/wortholic-ai",
-    tags: ["TypeScript", "Next.js", "LLMs"],
-  },
-  {
-    name: "Qwen3 Finance AI System",
-    description:
-      "GPU-accelerated financial AI system focused on reasoning-heavy market workflows.",
-    url: "https://github.com/QuantumByte47/Qwen3-Finance-AI-website-",
-    tags: ["Python", "PyTorch", "FastAPI"],
-  },
-  {
-    name: "WT AI Editor SaaS",
-    description:
-      "AI SaaS platform for content generation, media workflows, and productivity tooling.",
-    url: "https://github.com/QuantumByte47/WT-AI-Editor-SAAS",
-    tags: ["React", "Express", "PostgreSQL"],
-  },
-  {
-    name: "Multimodal AI Voice Agents",
-    description:
-      "Multimodal voice AI experiments for real-time conversational systems.",
-    url: "https://github.com/QuantumByte47/Multimodal-AI-Voice-Agents",
-    tags: ["Voice AI", "Transformers", "Python"],
-  },
-  {
-    name: "MCP Server RAG LLMs",
-    description:
-      "Model Context Protocol and RAG orchestration toolkit for enterprise assistants.",
-    url: "https://github.com/QuantumByte47/MCP-Server-RAG-LLMs",
-    tags: ["RAG", "MCP", "LLM Ops"],
-  },
-  {
-    name: "Portfolio Source",
-    description:
-      "Current portfolio source and frontend system evolution with modern UI architecture.",
-    url: "https://github.com/QuantumByte47",
-    tags: ["Next.js", "UI", "Frontend"],
-  },
-];
-
 export type EngagementModel = {
   title: string;
   timeline: string;
@@ -450,11 +443,6 @@ export const contactMethods: ContactMethod[] = [
     label: "LinkedIn",
     value: "linkedin.com/in/islamtalha",
     href: "https://www.linkedin.com/in/islamtalha/",
-  },
-  {
-    label: "GitHub",
-    value: "github.com/QuantumByte47",
-    href: "https://github.com/QuantumByte47",
   },
   {
     label: "WhatsApp",

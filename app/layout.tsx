@@ -17,7 +17,7 @@ const bodyFont = Manrope({
 });
 
 export const viewport: Viewport = {
-  themeColor: "#f97316",
+  themeColor: "#17213f",
 };
 
 export const metadata: Metadata = {

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
@@ -13,7 +14,6 @@ import { Separator } from "@/components/ui/separator";
 import {
   advancedAiTooling,
   backendPlatforms,
-  capabilityGroups,
   collaborationPoints,
   contactMethods,
   credibilityPoints,
@@ -22,120 +22,53 @@ import {
   featuredProducts,
   frontendProviders,
   focusAreas,
-  githubFallbackProjects,
   keyMetrics,
+  liveProductBuilds,
   toolbelt,
 } from "@/lib/portfolio-data";
 import { cn } from "@/lib/utils";
-
-type GitHubApiRepo = {
-  id: number;
-  name: string;
-  description: string | null;
-  html_url: string;
-  language: string | null;
-  stargazers_count: number;
-  forks_count: number;
-  updated_at: string;
-  fork: boolean;
-  archived: boolean;
-};
-
-type GitHubProjectView = {
-  name: string;
-  description: string;
-  url: string;
-  tags: string[];
-  updatedLabel?: string;
-};
-
-function formatDateLabel(value: string) {
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) {
-    return "Recently";
-  }
-
-  return new Intl.DateTimeFormat("en", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  }).format(date);
-}
-
-async function getGitHubProjects(): Promise<GitHubProjectView[]> {
-  try {
-    const response = await fetch(
-      "https://api.github.com/users/QuantumByte47/repos?sort=updated&per_page=12",
-      {
-        headers: {
-          Accept: "application/vnd.github+json",
-        },
-        next: {
-          revalidate: 3600,
-        },
-      }
-    );
-
-    if (!response.ok) {
-      return githubFallbackProjects;
-    }
-
-    const repos = (await response.json()) as GitHubApiRepo[];
-    const cleaned = repos
-      .filter((repo) => !repo.fork && !repo.archived)
-      .slice(0, 6)
-      .map((repo) => ({
-        name: repo.name,
-        description:
-          repo.description?.trim() ||
-          "Production-focused repository without a public description yet.",
-        url: repo.html_url,
-        tags: [
-          repo.language ?? "Code",
-          `Stars ${repo.stargazers_count}`,
-          `Forks ${repo.forks_count}`,
-        ],
-        updatedLabel: formatDateLabel(repo.updated_at),
-      }));
-
-    return cleaned.length > 0 ? cleaned : githubFallbackProjects;
-  } catch {
-    return githubFallbackProjects;
-  }
-}
 
 function SectionHeading({
   eyebrow,
   title,
   description,
+  highlight,
 }: {
   eyebrow: string;
   title: string;
   description: string;
+  highlight?: string;
 }) {
+  const titleParts = highlight ? title.split(highlight) : [title];
+
   return (
     <div className="space-y-3">
-      <Badge variant="secondary" className="w-fit bg-primary/12 text-primary">
+      <Badge variant="secondary" className="highlight-pill w-fit border">
         {eyebrow}
       </Badge>
-      <h2 className="font-heading text-3xl leading-tight text-balance text-foreground sm:text-4xl">
-        {title}
+      <h2 className="font-heading text-4xl leading-tight text-balance text-foreground sm:text-5xl">
+        {highlight && titleParts.length > 1 ? (
+          <>
+            {titleParts[0]}
+            <span className="highlight-text">{highlight}</span>
+            {titleParts.slice(1).join(highlight)}
+          </>
+        ) : (
+          title
+        )}
       </h2>
       <p className="max-w-3xl text-pretty text-muted-foreground">{description}</p>
     </div>
   );
 }
 
-export default async function Home() {
-  const githubProjects = await getGitHubProjects();
-
+export default function Home() {
   return (
-    <main className="relative isolate overflow-hidden pb-16">
-      <div className="pointer-events-none absolute inset-x-0 -top-16 h-[26rem] bg-[radial-gradient(circle_at_top,rgba(251,146,60,0.24),transparent_62%)]" />
-      <div className="pointer-events-none absolute right-0 top-[36rem] h-80 w-80 rounded-full bg-primary/10 blur-3xl" />
+    <main className="relative isolate overflow-x-hidden bg-white pb-16">
+      <div aria-hidden="true" className="scroll-focus-bottom" />
 
-      <div className="mx-auto flex max-w-7xl flex-col gap-12 px-4 pb-8 pt-6 sm:px-6 lg:px-8 lg:pt-8">
-        <header className="sticky top-4 z-40 rounded-xl border border-border/80 bg-card/95 p-3 shadow-sm backdrop-blur supports-[backdrop-filter]:bg-card/75">
+      <div className="fixed inset-x-0 top-0 z-50 px-0">
+        <header className="mx-auto max-w-7xl rounded-b-xl border-x border-b border-white/70 bg-white/88 p-3 shadow-[0_18px_55px_-38px_rgba(15,23,42,0.65)] backdrop-blur-xl supports-[backdrop-filter]:bg-white/78 sm:px-4">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
               <p className="font-heading text-lg font-semibold text-foreground sm:text-xl">Talha Islam</p>
@@ -145,9 +78,7 @@ export default async function Home() {
             <nav className="flex items-center gap-1">
               {[
                 { href: "#products", label: "Products" },
-                { href: "#github", label: "GitHub" },
                 { href: "#experience", label: "Experience" },
-                { href: "#capabilities", label: "Capabilities" },
                 { href: "#stack", label: "Stack" },
                 { href: "#services", label: "Services" },
                 { href: "#contact", label: "Contact" },
@@ -167,13 +98,14 @@ export default async function Home() {
             </nav>
           </div>
         </header>
+      </div>
 
+      <div className="mx-auto flex max-w-7xl flex-col gap-12 px-4 pb-8 pt-32 sm:px-6 md:pt-28 lg:px-8">
         <section className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-          <Card className="border-primary/20 bg-gradient-to-br from-white via-orange-50/60 to-orange-100/30">
+          <Card className="border-border/90 bg-white/95 shadow-[0_24px_80px_-55px_rgba(15,23,42,0.55)]">
             <CardHeader className="space-y-4">
-              <Badge className="w-fit">Open for AI product consulting and build partnerships</Badge>
               <CardTitle className="font-heading text-4xl leading-tight text-balance sm:text-5xl">
-                I build robust AI products, not demos.
+                I build robust <span className="highlight-text">AI products</span>, not demos.
               </CardTitle>
               <CardDescription className="text-base text-muted-foreground">
                 Senior AI engineer focused on end-to-end delivery: architecture, APIs, model reliability, agent orchestration, and production deployment. Proven experience across 100+ projects and dozens of shipped products.
@@ -182,7 +114,7 @@ export default async function Home() {
             <CardContent className="space-y-5">
               <div className="flex flex-wrap gap-2">
                 {focusAreas.map((area) => (
-                  <Badge key={area} variant="outline" className="border-primary/30 bg-white/70">
+                  <Badge key={area} variant="outline" className="border-border bg-slate-50 text-foreground">
                     {area}
                   </Badge>
                 ))}
@@ -205,7 +137,7 @@ export default async function Home() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-white/95">
             <CardHeader>
               <CardTitle>Execution Highlights</CardTitle>
               <CardDescription>
@@ -227,12 +159,12 @@ export default async function Home() {
         <section>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {keyMetrics.map((metric) => (
-              <Card key={metric.label} className="border-border/90 bg-white/90">
+              <Card key={metric.label} className="border-border/90 bg-white/95">
                 <CardHeader>
                   <CardDescription className="text-xs uppercase tracking-[0.12em] text-muted-foreground">
                     {metric.label}
                   </CardDescription>
-                  <CardTitle className="font-heading text-4xl text-primary">{metric.value}</CardTitle>
+                  <CardTitle className="font-heading text-4xl highlight-text">{metric.value}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-muted-foreground">{metric.detail}</p>
@@ -246,16 +178,111 @@ export default async function Home() {
 
         <section id="products" className="space-y-6 scroll-mt-28">
           <SectionHeading
-            eyebrow="Flagship Work"
-            title="Enterprise products across finance, voice, retrieval, and automation"
-            description="A focused set of high-impact builds from a larger portfolio of projects and production systems."
+            eyebrow="Live Products"
+            title="Public products I architected and built with teams"
+            highlight="built with teams"
+            description="Real shipped products across voice AI, financial intelligence, AI reliability, and legal automation."
           />
+
+          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-6">
+            {liveProductBuilds.map((product, index) => (
+              <Card
+                key={product.name}
+                className={cn(
+                  "group relative h-full overflow-hidden rounded-xl border border-slate-200/90 bg-white shadow-[0_24px_70px_-58px_rgba(15,23,42,0.78)] transition-all duration-300 hover:-translate-y-1 hover:border-slate-300 hover:shadow-[0_34px_90px_-58px_rgba(15,23,42,0.88)]",
+                  index < 3 ? "xl:col-span-2" : "xl:col-span-3"
+                )}
+              >
+                <div className="pointer-events-none absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--highlight)/0.55)] to-transparent" />
+                <div className="relative m-3 h-40 overflow-hidden rounded-lg border border-slate-200 bg-slate-50">
+                  <Image
+                    src={product.image}
+                    alt={`${product.name} homepage visual`}
+                    width={1200}
+                    height={720}
+                    sizes="(min-width: 1280px) 20vw, (min-width: 768px) 50vw, 100vw"
+                    className={cn(
+                      "h-full w-full transition-transform duration-500 group-hover:scale-[1.04]",
+                      product.imageFit === "contain"
+                        ? "object-contain p-5"
+                        : "object-cover"
+                    )}
+                  />
+                  <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white via-white/60 to-transparent" />
+                  <Badge variant="secondary" className="highlight-pill absolute left-3 top-3 border bg-white/80 backdrop-blur">
+                    Live
+                  </Badge>
+                </div>
+                <CardHeader className="space-y-3 px-5 pb-4 pt-1">
+                  <div className="space-y-1">
+                    <CardDescription className="text-xs uppercase tracking-[0.14em]">
+                      {product.category}
+                    </CardDescription>
+                    <CardTitle className="text-2xl leading-tight">{product.name}</CardTitle>
+                  </div>
+                  <p className="line-clamp-2 text-sm leading-relaxed text-muted-foreground">
+                    {product.summary}
+                  </p>
+                </CardHeader>
+                <CardContent className="space-y-4 px-5 pb-5 pt-0">
+                  <div className="flex flex-wrap gap-2">
+                    {product.stack.slice(0, 3).map((item) => (
+                      <Badge key={`${product.name}-${item}`} variant="outline" className="border-slate-200 bg-slate-50 text-slate-700">
+                        {item}
+                      </Badge>
+                    ))}
+                  </div>
+
+                  <div className="rounded-lg border border-slate-200 bg-slate-50/70 p-3">
+                    <p className="line-clamp-2 text-sm font-medium leading-relaxed text-foreground">
+                      {product.role}
+                    </p>
+                  </div>
+
+                  <div className="flex items-center justify-between gap-3">
+                    <details className="group/details">
+                      <summary className="cursor-pointer list-none text-xs font-semibold uppercase tracking-[0.12em] text-muted-foreground transition-colors hover:text-foreground">
+                        View Notes
+                      </summary>
+                      <div className="absolute inset-x-5 bottom-16 z-10 rounded-lg border border-slate-200 bg-white/95 p-3 shadow-[0_22px_50px_-35px_rgba(15,23,42,0.9)] backdrop-blur">
+                        <ul className="space-y-2">
+                          {product.highlights.slice(0, 2).map((highlight) => (
+                            <li key={highlight} className="text-sm leading-relaxed text-muted-foreground">
+                              {highlight}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </details>
+                    <Link
+                      href={product.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={buttonVariants({ variant: "outline", size: "sm", className: "h-8 px-3 text-xs" })}
+                    >
+                      Open
+                    </Link>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          <div className="pt-4">
+            <h3 className="font-heading text-2xl leading-tight text-foreground">
+              Additional <span className="highlight-text">flagship systems</span>
+            </h3>
+            <p className="mt-2 max-w-3xl text-sm text-muted-foreground">
+              Supporting platform work from the broader portfolio, including voice infrastructure,
+              retrieval systems, vector data platforms, and automation layers.
+            </p>
+          </div>
 
           <div className="grid gap-4 lg:grid-cols-2">
             {featuredProducts.map((product) => (
-              <Card key={product.name} className="h-full border-border/90">
+              <Card key={product.name} className="h-full border-border/90 bg-white/95">
                 <CardHeader className="space-y-3">
-                  <Badge variant="secondary" className="w-fit bg-orange-100 text-orange-900">
+                  <Badge variant="secondary" className="w-fit border border-border bg-slate-100 text-slate-700">
                     {product.category}
                   </Badge>
                   <CardTitle className="text-2xl">{product.name}</CardTitle>
@@ -271,7 +298,7 @@ export default async function Home() {
                   </ul>
                   <div className="flex flex-wrap gap-2">
                     {product.stack.map((item) => (
-                      <Badge key={item} variant="outline" className="border-primary/25">
+                      <Badge key={item} variant="outline" className="border-border bg-slate-50">
                         {item}
                       </Badge>
                     ))}
@@ -284,72 +311,11 @@ export default async function Home() {
 
         <Separator />
 
-        <section id="github" className="space-y-6 scroll-mt-28">
-          <SectionHeading
-            eyebrow="GitHub Projects"
-            title="Recent repositories and open-source work"
-            description="Live repositories from GitHub with automatic fallback to curated projects when API data is unavailable."
-          />
-
-          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-            {githubProjects.map((project) => (
-              <Card key={project.name} className="h-full border-primary/20 bg-gradient-to-b from-white to-orange-50/40">
-                <CardHeader className="space-y-3">
-                  <div className="flex items-start justify-between gap-3">
-                    <CardTitle className="text-xl leading-snug">{project.name}</CardTitle>
-                    <Badge variant="secondary" className="shrink-0 bg-orange-100 text-orange-900">
-                      GitHub
-                    </Badge>
-                  </div>
-                  <CardDescription className="min-h-[52px] text-sm">
-                    {project.description}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="flex flex-wrap gap-2">
-                    {project.tags.map((tag) => (
-                      <Badge key={`${project.name}-${tag}`} variant="outline" className="border-primary/25 bg-white/80">
-                        {tag}
-                      </Badge>
-                    ))}
-                  </div>
-
-                  <div className="flex items-center justify-between border-t border-border/80 pt-3">
-                    <p className="text-xs text-muted-foreground">
-                      {project.updatedLabel ? `Updated ${project.updatedLabel}` : "Featured project"}
-                    </p>
-                    <Link
-                      href={project.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={buttonVariants({ variant: "outline", size: "sm" })}
-                    >
-                      Open Repo
-                    </Link>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          <div className="flex justify-center">
-            <Link
-              href="https://github.com/QuantumByte47"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={buttonVariants({ size: "lg" })}
-            >
-              View Full GitHub Profile
-            </Link>
-          </div>
-        </section>
-
-        <Separator />
-
         <section id="experience" className="space-y-6 scroll-mt-28">
           <SectionHeading
             eyebrow="Career"
             title="Experience building and scaling AI products"
+            highlight="AI products"
             description="Hands-on delivery from research and architecture through production rollout and operational optimization."
           />
 
@@ -359,7 +325,7 @@ export default async function Home() {
                 <CardHeader className="gap-3 sm:flex-row sm:items-start sm:justify-between">
                   <div className="space-y-1">
                     <CardTitle className="text-xl">
-                      {role.role} <span className="text-primary">@ {role.company}</span>
+                      {role.role} <span className="highlight-text">@ {role.company}</span>
                     </CardTitle>
                     <CardDescription>{role.summary}</CardDescription>
                   </div>
@@ -379,7 +345,7 @@ export default async function Home() {
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {role.stack.map((item) => (
-                      <Badge key={item} variant="secondary" className="bg-orange-100/70 text-orange-900">
+                      <Badge key={item} variant="secondary" className="border border-border bg-slate-100 text-slate-700">
                         {item}
                       </Badge>
                     ))}
@@ -392,148 +358,117 @@ export default async function Home() {
 
         <Separator />
 
-        <section id="capabilities" className="space-y-6 scroll-mt-28">
+        <section id="stack" className="space-y-7 scroll-mt-28">
           <SectionHeading
-            eyebrow="Capabilities"
-            title="Three capability tracks, presented for faster scanning"
-            description="Your profile is positioned as AI full-stack engineering: product architecture, backend depth, and advanced AI systems."
+            eyebrow="Technology Stack"
+            title="Technology stack for serious AI products"
+            highlight="Technology stack"
+            description="A focused view of the frameworks, platforms, and AI systems I use to ship production-grade products."
           />
 
-          <div className="grid gap-4 lg:grid-cols-3">
-            {capabilityGroups.map((group, groupIndex) => (
-              <Card
-                key={group.title}
-                className="h-full border-primary/20 bg-gradient-to-b from-white via-orange-50/40 to-white"
+          <div className="space-y-4">
+            {[
+              {
+                label: "Model Layer",
+                items: [
+                  "GPT-4",
+                  "Claude",
+                  "LangGraph",
+                  "CrewAI",
+                  "AutoGen",
+                  "GraphRAG",
+                  "RAGAS",
+                  "LangSmith",
+                  "LlamaIndex",
+                  "LangChain",
+                  "OpenAI",
+                  "Anthropic",
+                  "Vector Search",
+                  "Prompt Ops",
+                  ...advancedAiTooling.slice(0, 4),
+                ],
+              },
+              {
+                label: "Backend",
+                reverse: true,
+                items: [
+                  "FastAPI",
+                  "Node.js",
+                  "PostgreSQL",
+                  "Redis",
+                  "Docker",
+                  "Kubernetes",
+                  "AWS",
+                  "MongoDB",
+                  "Qdrant",
+                  "Microservices",
+                  "REST APIs",
+                  "Webhooks",
+                  "Queues",
+                  ...backendPlatforms,
+                ],
+              },
+              {
+                label: "Frontend",
+                items: [
+                  "React",
+                  "Next.js",
+                  "TypeScript",
+                  "Tailwind",
+                  "Radix UI",
+                  "Framer Motion",
+                  "shadcn/ui",
+                  "Design Systems",
+                  "Dashboards",
+                  "Responsive UI",
+                  "Server Components",
+                  "API Clients",
+                  ...frontendProviders,
+                ],
+              },
+              {
+                label: "Data + Voice",
+                reverse: true,
+                items: [
+                  "Pinecone",
+                  "Qdrant",
+                  "Milvus",
+                  "Neo4j",
+                  "Twilio",
+                  "Whisper",
+                  "Deepgram",
+                  "ElevenLabs",
+                  "ETL",
+                  "Analytics",
+                  "Observability",
+                  "Embeddings",
+                  "Semantic Search",
+                  "Voice Agents",
+                  ...toolbelt.slice(0, 8),
+                ],
+              },
+            ].map((row) => (
+              <div
+                key={row.label}
+                className={cn("stack-marquee", row.reverse ? "stack-marquee-reverse" : "")}
               >
-                <CardHeader className="space-y-3 pb-4">
-                  <div className="flex items-center justify-between">
-                    <Badge variant="secondary" className="bg-primary/12 text-primary">
-                      Track {groupIndex + 1}
-                    </Badge>
-                    <span className="font-heading text-4xl leading-none text-primary/20">
-                      {String(groupIndex + 1).padStart(2, "0")}
+                <div className="mb-3 flex items-center gap-3 px-2">
+                  <span className="h-px flex-1 bg-border" />
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                    {row.label}
+                  </p>
+                  <span className="h-px flex-1 bg-border" />
+                </div>
+                <div className="stack-marquee-track">
+                  {[...row.items, ...row.items].map((item, itemIndex) => (
+                    <span key={`${row.label}-${item}-${itemIndex}`} className="stack-word">
+                      {item}
                     </span>
-                  </div>
-                  <CardTitle className="text-2xl">{group.title}</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-2">
-                  {group.items.map((item, itemIndex) => (
-                    <div
-                      key={item}
-                      className="flex items-start gap-3 rounded-lg border border-border/80 bg-white/85 px-3 py-2"
-                    >
-                      <span className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/12 text-xs font-semibold text-primary">
-                        {itemIndex + 1}
-                      </span>
-                      <p className="text-sm leading-relaxed text-foreground/95">{item}</p>
-                    </div>
                   ))}
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          <div id="stack" className="grid gap-4 scroll-mt-28 xl:grid-cols-3">
-            <Card className="border-primary/20 bg-gradient-to-b from-white to-orange-50/40">
-              <CardHeader>
-                <CardTitle>Frontend Component Ecosystem</CardTitle>
-                <CardDescription>
-                  Modern UI libraries and component providers I ship with.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                {frontendProviders.map((item) => (
-                  <div
-                    key={item}
-                    className="rounded-md border border-border bg-white/90 px-3 py-2 text-sm"
-                  >
-                    {item}
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
-
-            <Card className="border-primary/20 bg-gradient-to-b from-white to-orange-50/40">
-              <CardHeader>
-                <CardTitle>Backend Engineering Stack</CardTitle>
-                <CardDescription>
-                  Production backends for APIs, data pipelines, and SaaS platforms.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                {backendPlatforms.map((item) => (
-                  <div
-                    key={item}
-                    className="rounded-md border border-border bg-white/90 px-3 py-2 text-sm"
-                  >
-                    {item}
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
-
-            <Card className="border-primary/20 bg-gradient-to-b from-white to-orange-50/40">
-              <CardHeader>
-                <CardTitle>Advanced AI Tooling</CardTitle>
-                <CardDescription>
-                  Advanced systems including MCP security, knowledge graphs, and enterprise retrieval.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                {advancedAiTooling.map((item) => (
-                  <div
-                    key={item}
-                    className="rounded-md border border-border bg-white/90 px-3 py-2 text-sm"
-                  >
-                    {item}
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
-          </div>
-
-          <Card className="border-primary/25 bg-gradient-to-b from-orange-50/90 to-white">
-            <CardHeader>
-              <CardTitle>Stack I Work With</CardTitle>
-              <CardDescription>
-                Extended tools and frameworks used across delivery engagements.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="flex flex-wrap gap-2">
-                {toolbelt.map((tool) => (
-                  <Badge
-                    key={tool}
-                    variant="outline"
-                    className={cn(
-                      "border-primary/30 bg-white/80 text-foreground",
-                      tool.includes("GPT") || tool.includes("Claude") ? "bg-primary/10" : ""
-                    )}
-                  >
-                    {tool}
-                  </Badge>
-                ))}
-              </div>
-
-              <div className="rounded-xl border border-primary/25 bg-white p-5">
-                <p className="font-heading text-xl font-semibold">Need a robust AI product, fast?</p>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  I can help with architecture, implementation, and production hardening for LLM systems, automation platforms, and AI SaaS products.
-                </p>
-                <div className="mt-4 flex flex-wrap gap-3">
-                  <Link href="#products" className={buttonVariants({ size: "lg" })}>
-                    Start a Conversation
-                  </Link>
-                  <Link
-                    href="#experience"
-                    className={buttonVariants({ variant: "outline", size: "lg" })}
-                  >
-                    Request Portfolio Walkthrough
-                  </Link>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            ))}
+          </div>
         </section>
 
         <Separator />
@@ -542,14 +477,15 @@ export default async function Home() {
           <SectionHeading
             eyebrow="Work With Me"
             title="Engagement options based on your project stage"
+            highlight="Engagement options"
             description="Choose a delivery model that matches your timeline, team, and technical depth requirements."
           />
 
           <div className="grid gap-4 lg:grid-cols-3">
             {engagementModels.map((model) => (
-              <Card key={model.title} className="h-full border-border/90 bg-white">
+              <Card key={model.title} className="h-full border-border/90 bg-white/95">
                 <CardHeader className="space-y-2">
-                  <Badge variant="secondary" className="w-fit bg-orange-100 text-orange-900">
+                  <Badge variant="secondary" className="w-fit border border-border bg-slate-100 text-slate-700">
                     {model.timeline}
                   </Badge>
                   <CardTitle className="text-2xl">{model.title}</CardTitle>
@@ -578,11 +514,12 @@ export default async function Home() {
           <SectionHeading
             eyebrow="Contact"
             title="Direct contact information"
+            highlight="Direct contact"
             description="Use any channel below for project discussions, consulting requests, or partnership opportunities."
           />
 
           <div className="grid gap-4 lg:grid-cols-[1.05fr_0.95fr]">
-            <Card className="border-primary/25 bg-gradient-to-b from-white to-orange-50/30">
+            <Card className="border-border/90 bg-white/95">
               <CardHeader>
                 <CardTitle>Reach Out</CardTitle>
                 <CardDescription>
@@ -604,7 +541,7 @@ export default async function Home() {
                       </p>
                       <p className="font-medium text-foreground">{method.value}</p>
                     </div>
-                    <span className="text-sm font-medium text-primary">Open</span>
+                    <span className="text-sm font-medium highlight-text">Open</span>
                   </a>
                 ))}
               </CardContent>
@@ -626,7 +563,7 @@ export default async function Home() {
                     {point}
                   </p>
                 ))}
-                <div className="rounded-lg border border-primary/25 bg-primary/5 p-4">
+                <div className="highlight-panel rounded-lg border p-4">
                   <p className="font-heading text-lg font-semibold text-foreground">
                     Quick Start
                   </p>
@@ -661,14 +598,6 @@ export default async function Home() {
               © {new Date().getFullYear()} Talha Islam
             </p>
             <div className="flex flex-wrap gap-2">
-              <a
-                href="https://github.com/QuantumByte47"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={buttonVariants({ variant: "ghost", size: "sm" })}
-              >
-                GitHub
-              </a>
               <a
                 href="https://www.linkedin.com/in/islamtalha/"
                 target="_blank"
