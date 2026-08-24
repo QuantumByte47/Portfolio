@@ -1,7 +1,6 @@
 import type { Config } from 'tailwindcss'
 
 const config: Config = {
-  darkMode: ["class"],
   content: [
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -12,8 +11,10 @@ const config: Config = {
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
-        card: "hsl(var(--card))",
-        "card-foreground": "hsl(var(--card-foreground))",
+        surface: "hsl(var(--surface))",
+        "surface-2": "hsl(var(--surface-2))",
+        card: "hsl(var(--surface))",
+        "card-foreground": "hsl(var(--foreground))",
         primary: "hsl(var(--primary))",
         "primary-foreground": "hsl(var(--primary-foreground))",
         muted: "hsl(var(--muted))",
@@ -21,30 +22,42 @@ const config: Config = {
         accent: "hsl(var(--accent))",
         "accent-foreground": "hsl(var(--accent-foreground))",
         border: "hsl(var(--border))",
+        "border-strong": "hsl(var(--border-strong))",
         ring: "hsl(var(--ring))",
+        highlight: "hsl(var(--highlight))",
+        signal: "hsl(var(--signal))",
       },
       borderRadius: {
         lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        md: "calc(var(--radius) - 3px)",
+        sm: "calc(var(--radius) - 6px)",
       },
       fontFamily: {
         sans: ["var(--font-body)", "ui-sans-serif", "system-ui"],
-        heading: ["var(--font-heading)", "ui-sans-serif", "system-ui"],
+        display: ["var(--font-display)", "ui-serif", "Georgia", "serif"],
+        mono: ["var(--font-mono)", "ui-monospace", "SFMono-Regular", "monospace"],
       },
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-      },
-      animation: {
-        move: "move 5s linear infinite",
+      letterSpacing: {
+        label: "0.16em",
       },
       keyframes: {
-        move: {
-          "0%": { transform: "translateX(-200px)" },
-          "100%": { transform: "translateX(200px)" },
+        "marquee-left": {
+          from: { transform: "translateX(0)" },
+          to: { transform: "translateX(-50%)" },
         },
+        "marquee-right": {
+          from: { transform: "translateX(-50%)" },
+          to: { transform: "translateX(0)" },
+        },
+        "pulse-dot": {
+          "0%, 100%": { opacity: "1", transform: "scale(1)" },
+          "50%": { opacity: "0.45", transform: "scale(0.82)" },
+        },
+      },
+      animation: {
+        "marquee-left": "marquee-left 68s linear infinite",
+        "marquee-right": "marquee-right 68s linear infinite",
+        "pulse-dot": "pulse-dot 2.4s ease-in-out infinite",
       },
     },
   },

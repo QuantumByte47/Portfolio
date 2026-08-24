@@ -25,59 +25,102 @@ export type ProductItem = {
 export type LiveProductBuild = {
   name: string;
   category: string;
-  url: string;
+  url?: string;
   image: string;
   imageFit: "cover" | "contain";
+  /*
+    "built" means end-to-end ownership with a small team. "contributed" means
+    one layer of someone else's product. The page renders these differently on
+    purpose - a reader can check these companies, so the distinction has to be
+    visible before they ask.
+  */
+  involvement: "built" | "contributed";
   role: string;
   summary: string;
   highlights: string[];
+  keywords: string[];
   stack: string[];
 };
 
 export const keyMetrics: Metric[] = [
   {
-    value: "100+",
-    label: "Projects Delivered",
-    detail: "AI, data, and automation systems shipped for startups and enterprise teams.",
+    value: "7",
+    label: "Products live",
+    detail: "Shipped and in use by real customers today.",
   },
   {
     value: "25+",
-    label: "RAG Deployments",
-    detail: "Production knowledge systems across legal, healthcare, finance, and support.",
+    label: "RAG systems",
+    detail: "Legal, healthcare, finance, and support knowledge bases.",
   },
   {
-    value: "35+",
-    label: "Businesses Automated",
-    detail: "n8n, Make, Zapier, CRM and communication workflows at business scale.",
+    value: "50M",
+    label: "Embeddings",
+    detail: "Under management, search holding under 50ms.",
   },
   {
-    value: "50M+",
-    label: "Embeddings Managed",
-    detail: "Vector infrastructure with sub-50ms retrieval and high availability.",
+    value: "50K",
+    label: "Users reached",
+    detail: "Through automation work at SimpleTalk AI.",
   },
   {
-    value: "99.9%",
-    label: "Platform Uptime",
-    detail: "Reliable SaaS and AI pipelines with monitoring and observability.",
+    value: "4+ yrs",
+    label: "Shipping AI",
+    detail: "Data engineering first, then LLM systems.",
   },
 ];
 
 export const focusAreas = [
-  "LLM Architecture",
-  "Advanced RAG",
-  "Voice AI",
-  "Agentic Workflows",
-  "AI SaaS Engineering",
-  "Automation Infrastructure",
+  "Retrieval / RAG",
+  "Voice & Text Agents",
+  "LLM Evaluation",
+  "Backend Architecture",
   "Data Platforms",
-  "MLOps & Reliability",
+  "Production MLOps",
+];
+
+/*
+  Short first-person bio. Written to sound like a person talking, because the
+  rest of the internet already has the polished version.
+*/
+export const aboutParagraphs = [
+  "I started in data engineering, which is the reason I tend to look at retrieval and evaluation before I look at the model. Most of the AI systems I have been handed were not failing because the model was weak. They were failing because the wrong three chunks were being retrieved, or because nobody had written down what a correct answer looked like.",
+  "These days I am a senior AI engineer at Wortholic, working on product development and enterprise architecture. That means the whole stack: the retrieval layer, agent orchestration, the API underneath, the frontend on top, and the monitoring that tells you when it has quietly stopped working.",
+];
+
+export type Principle = {
+  title: string;
+  detail: string;
+};
+
+export const principles: Principle[] = [
+  {
+    title: "Retrieval before model",
+    detail:
+      "A better model rarely fixes a bad context window. I profile what is being retrieved first, and most of the time the fix is there and it is cheaper.",
+  },
+  {
+    title: "Evals or it did not happen",
+    detail:
+      "If there is no test set, nobody can tell whether a prompt change helped. I write the eval before the feature, even when it is thirty examples in a spreadsheet.",
+  },
+  {
+    title: "Scope what the AI may touch",
+    detail:
+      "Read-only by default. An agent that can explain your portfolio is useful; one that can move money needs a much higher bar and usually a human in the loop.",
+  },
+  {
+    title: "Ship it, then own the pager",
+    detail:
+      "I stay on a system after launch. Latency creep, retrieval drift, and cost spikes only show up under real traffic, and they always show up.",
+  },
 ];
 
 export const credibilityPoints = [
-  "Built enterprise automation for 50K+ users with up to 60% operational cost reduction.",
-  "Reduced hallucinations by 73% and RAG response latency by 65% in production finance systems.",
-  "Delivered multi-tenant SaaS products with real-time analytics and enterprise RBAC.",
-  "Launched dozens of real-world AI products spanning voice, retrieval, analytics, and workflow automation.",
+  "Automation workflows at SimpleTalk AI that 50,000+ users touched, which cut operational cost about 60%.",
+  "Cut hallucinations 73% and RAG latency 65% on a finance system at INEXOR, mostly by fixing retrieval before touching the model.",
+  "Around 50 million embeddings under management, with search staying under 50ms.",
+  "20+ models into production at Voliom, and the on-call rotation that came with them.",
 ];
 
 export const liveProductBuilds: LiveProductBuild[] = [
@@ -85,79 +128,172 @@ export const liveProductBuilds: LiveProductBuild[] = [
     name: "NaturalFlow.ai",
     category: "AI Communication Platform",
     url: "https://www.naturalflow.ai/",
-    image: "/images/live-products/naturalflow-hero.jpg",
+    image: "/images/live-products/naturalflow-cover.png",
     imageFit: "cover",
-    role: "Product architecture, agent orchestration, and delivery with the engineering team",
+    involvement: "built",
+    role: "Built the agent layer and call infrastructure with the Wortholic engineering team.",
     summary:
-      "Live AI communication platform for inbound calls, outbound sales, SMS conversations, chatbots, routing, scheduling, analytics, and business integrations.",
+      "Answers inbound calls, makes outbound ones, and runs SMS and website chat for businesses. Agents qualify leads, book appointments, route calls, and handle support without a person on the line.",
     highlights: [
-      "Designed the agent workflow layer across voice, chat, and messaging channels.",
-      "Architected call routing, lead qualification, appointment scheduling, and support flows.",
-      "Shaped production integrations with CRM, calendar, analytics, and communication systems.",
+      "Built the agent layer so one configuration drives voice, SMS, and chat instead of three separate systems.",
+      "Wrote the routing and qualification logic, including the handoff to a human when an agent gets stuck.",
+      "Connected the CRM, calendar, and telephony integrations the agents actually act through.",
+    ],
+    keywords: [
+      "Voice Agents",
+      "Realtime STT/TTS",
+      "Call Routing",
+      "SMS & Chatbots",
+      "Twilio",
+      "CRM Integrations",
     ],
     stack: ["Voice AI", "LLM Agents", "STT/TTS", "Twilio", "CRM Integrations", "Analytics"],
   },
   {
     name: "WealthNX.ai",
-    category: "Personal Financial AI Copilot",
+    category: "Personal Finance AI",
     url: "https://www.wealthnx.ai/",
-    image: "/images/live-products/wealthnx-hero.png",
-    imageFit: "contain",
-    role: "Financial AI architecture, multi-agent systems, and product delivery with the team",
+    image: "/images/live-products/wealthnx-cover.png",
+    imageFit: "cover",
+    involvement: "built",
+    role: "Architected the assistant layer and the data pipelines behind it, with the product team.",
     summary:
-      "Multi-agent finance product that brings accounts, market context, stock research, crypto intelligence, accountant workflows, and custom visual dashboards into one AI-led experience.",
+      "Connects bank, brokerage, and crypto accounts through Plaid, then answers questions about them. Separate assistants cover spending, stocks, and crypto, and Build Mode turns a question into a saved chart.",
     highlights: [
-      "Architected specialized agents for spending, market intelligence, crypto, and build-mode analytics.",
-      "Built the foundation for read-only financial visibility, explanations, and dashboard generation.",
-      "Connected real-time and historical data workflows for clearer financial understanding.",
+      "Split one general assistant into separate spending, stock, and crypto assistants, which cut wrong answers on account-specific questions.",
+      "Built the tool-calling layer so answers come from live account and market data instead of the model's memory.",
+      "Kept the whole thing read-only. It can explain and analyze a portfolio, but it cannot move money.",
+    ],
+    keywords: [
+      "Financial Agents",
+      "Plaid Integration",
+      "Tool Calling",
+      "Market & Crypto Data",
+      "Anomaly Detection",
+      "Read-Only Access",
     ],
     stack: ["Financial AI", "Multi-Agent Systems", "RAG", "Market Data", "Dashboards", "MLOps"],
   },
   {
+    name: "Compliant.io",
+    category: "Security Compliance Platform",
+    image: "/images/live-products/compliant-io.png",
+    imageFit: "cover",
+    involvement: "built",
+    role: "Built the retrieval and control-mapping layer with the product team.",
+    summary:
+      "Tracks how close a company is to passing SOC 2, HIPAA, PCI DSS, NIST CSF, CCPA, and SOX audits. Collects evidence, maps it to controls, and shows what is still missing before the auditor asks.",
+    highlights: [
+      "Mapped framework requirements to internal controls, so one piece of evidence can satisfy several frameworks at once.",
+      "Grounded every answer in the customer's own policies and evidence, with a citation back to the source document.",
+      "Built the readiness scoring that turns control status into one percentage and a ranked list of what to fix.",
+    ],
+    keywords: [
+      "Control Mapping",
+      "Evidence Automation",
+      "Policy Retrieval",
+      "Readiness Scoring",
+      "Vendor Risk",
+      "Audit Trails",
+    ],
+    stack: ["RAG", "LLM Orchestration", "Vector Search", "Policy Automation", "Audit Analytics", "RBAC"],
+  },
+  {
+    name: "LandLedger",
+    category: "Land & Property CRM",
+    image: "/images/live-products/landledger.png",
+    imageFit: "cover",
+    involvement: "built",
+    role: "Built the data platform and the deal analytics with the product team.",
+    summary:
+      "A CRM for people who buy and sell land. Tracks parcels, owners, offers, and deals next to the market data that decides whether a parcel is worth bidding on.",
+    highlights: [
+      "Built the parcel ingestion pipeline that keeps acreage, ownership, and pricing current across counties.",
+      "Modeled price per acre by land type, so a new listing can be checked against recent closes nearby.",
+      "Built the pipeline view that follows a deal from first contact through due diligence, contract, and close.",
+    ],
+    keywords: [
+      "Parcel Data",
+      "Geospatial Mapping",
+      "Deal Pipeline",
+      "Price-per-Acre Models",
+      "Lead Scoring",
+      "Portfolio Analytics",
+    ],
+    stack: ["Next.js", "PostgreSQL", "Geospatial Data", "LLM Insights", "Pipeline Analytics", "Integrations"],
+  },
+  {
     name: "Galileo.ai",
-    category: "AI Evaluation & Observability",
+    category: "LLM Evaluation & Observability",
     url: "https://galileo.ai/",
     image: "/images/live-products/galileo.png",
     imageFit: "cover",
-    role: "Eval engineering, observability workflows, and AI reliability architecture with teams",
+    involvement: "contributed",
+    role: "Worked on evaluation and reliability workflows alongside the platform team.",
     summary:
-      "AI observability and evaluation platform for offline evals, production guardrails, RAG quality, agent behavior analysis, safety checks, traces, and deployment confidence.",
+      "Testing and monitoring for teams running LLMs in production. Runs evals against datasets before release, then keeps checking the same things on live traffic and blocks responses that fail.",
     highlights: [
-      "Contributed to evaluation flows that connect development datasets with production AI behavior.",
-      "Worked on reliability patterns for traces, failure analysis, guardrails, and model feedback loops.",
-      "Supported architecture for RAG and agent eval use cases across production environments.",
+      "Set up eval suites for RAG and agent systems that score retrieval quality separately from the final answer.",
+      "Worked on the path from a failing production trace back to a dataset case, so the same failure gets caught next time.",
+      "Tuned guardrail thresholds, where blocking too much turned out to cost as much as blocking too little.",
+    ],
+    keywords: [
+      "LLM-as-Judge",
+      "RAG Evals",
+      "Agent Traces",
+      "Runtime Guardrails",
+      "Failure Clustering",
+      "Custom Metrics",
     ],
     stack: ["LLM Evaluation", "RAG Evals", "Guardrails", "Tracing", "Observability", "Data Pipelines"],
   },
   {
     name: "Robin AI",
-    category: "Legal Intelligence Platform",
+    category: "Contract Review for Legal Teams",
     url: "https://robinai.com/",
     image: "/images/live-products/robin.jpg",
     imageFit: "cover",
-    role: "Legal AI architecture, contract intelligence systems, and team-based delivery",
+    involvement: "contributed",
+    role: "Worked on contract retrieval and extraction with the engineering team.",
     summary:
-      "Enterprise legal AI platform for contract review, document search, legal chat, obligations tracking, workspaces, and secure collaboration for legal teams.",
+      "Legal teams upload contracts and ask questions about them in a shared thread. Search picks out contract types, signatures, and key terms, and obligations become tracked checklists with deadlines.",
     highlights: [
-      "Helped shape contract intelligence workflows for review, analysis, search, and collaboration.",
-      "Designed AI-assisted document experiences for legal teams working across large contract sets.",
-      "Focused on secure, enterprise-ready patterns for sensitive legal data and team workflows.",
+      "Worked on retrieval across large contract sets, where the answer usually sits in a clause in a different document.",
+      "Built extraction for dates, parties, and obligations that feeds the deadline and renewal alerts.",
+      "Scoped document access per workspace, since a contract one team can read is often one another team cannot.",
+    ],
+    keywords: [
+      "Contract Q&A",
+      "Clause Extraction",
+      "Semantic Search",
+      "Obligation Tracking",
+      "Claude",
+      "Scoped Workspaces",
     ],
     stack: ["Legal AI", "Document Intelligence", "Search", "LLM Chat", "Workspaces", "Security"],
   },
   {
     name: "Genie AI",
-    category: "AI Contracting Platform",
+    category: "Contract Drafting & Negotiation",
     url: "https://www.genieai.co/",
     image: "/images/live-products/genie.png",
     imageFit: "cover",
-    role: "Legal agent architecture, document workflows, and product engineering with teams",
+    involvement: "contributed",
+    role: "Worked on the document workflows and the review pipeline with the product team.",
     summary:
-      "AI contracting platform for drafting, reviewing, redlining, negotiating, organizing, and extracting insights from complex business agreements.",
+      "Drafts, reviews, and redlines business contracts, and answers questions across a set of related documents. Reviews run against a company's own playbook rather than generic legal advice.",
     highlights: [
-      "Worked on agentic legal workflows across drafting, review, playbooks, and negotiation support.",
-      "Supported document intelligence patterns for multi-document deals and structured insights.",
-      "Contributed to product architecture for business teams needing faster contract operations.",
+      "Worked on cross-document context, so a definition in a master agreement carries into the schedules that reference it.",
+      "Built playbook-based review that checks a draft against a company's own positions instead of a generic standard.",
+      "Added validation gates on generated clauses, because a confident wrong clause is worse than no suggestion.",
+    ],
+    keywords: [
+      "Semantic Graph",
+      "Playbook Review",
+      "Tracked Changes",
+      "Document Q&A",
+      "Hallucination Gating",
+      "Word Add-in",
     ],
     stack: ["Legal Agents", "Document AI", "Playbooks", "Contract Review", "Tracked Changes", "Integrations"],
   },
@@ -165,12 +301,12 @@ export const liveProductBuilds: LiveProductBuild[] = [
 
 export const experienceTimeline: ExperienceItem[] = [
   {
-    role: "Lead AI Engineer",
+    role: "Sr. AI Engineer",
     company: "Wortholic",
     period: "Aug 2025 - Present",
     location: "Rawalpindi, Pakistan (On-site)",
     summary:
-      "Leading AI product strategy and engineering delivery across voice AI, RAG, and cloud-native SaaS platforms.",
+      "AI product development and enterprise architecture across voice AI, RAG, and cloud-native SaaS platforms.",
     impact: [
       "Built NaturalFlow.ai with custom LLM integration and agentic workflow orchestration.",
       "Architected high-concurrency call center platform infrastructure.",
@@ -245,7 +381,7 @@ export const experienceTimeline: ExperienceItem[] = [
     stack: ["LLM Evaluation", "NLP QA", "Python", "Quality Frameworks", "AI Feedback Loops"],
   },
   {
-    role: "Senior Software & Data Engineer",
+    role: "Junior Software & Data Engineer",
     company: "Voliom",
     period: "Jan 2022 - Jan 2025",
     location: "Remote",
@@ -262,62 +398,62 @@ export const experienceTimeline: ExperienceItem[] = [
 
 export const featuredProducts: ProductItem[] = [
   {
-    name: "Microsoft Call Center AI (Customized)",
-    category: "Enterprise Voice AI",
+    name: "Call Center Voice Platform",
+    category: "Enterprise Voice",
     summary:
-      "Extensively customized voice intelligence platform for enterprise support and sales operations.",
+      "Heavily modified build of Microsoft's call center stack for a support and sales floor, with our own routing and retrieval on top.",
     outcomes: [
-      "Handled high-volume simultaneous calls with 99.7% uptime.",
-      "Reduced average handle time by 65%.",
-      "Improved first-call resolution by 40%.",
+      "Held 99.7% uptime through high simultaneous call volume.",
+      "Cut average handle time 65%, mostly by giving agents the answer before they searched for it.",
+      "Raised first-call resolution 40%.",
     ],
     stack: ["Whisper", "Deepgram", "Twilio", "GPT-4", "RAG", "Analytics"],
   },
   {
     name: "LightRAG Productization",
-    category: "Graph-Enhanced RAG",
+    category: "Graph + Vector Retrieval",
     summary:
-      "Enterprise graph+vector retrieval platform with multi-hop reasoning and context-aware ranking.",
+      "Took LightRAG from a research repo to something a team could run, pairing a knowledge graph with vector search so questions spanning several documents resolve in one hop.",
     outcomes: [
-      "Reached 94% answer accuracy in production use cases.",
-      "Handled 5M+ knowledge nodes with sub-500ms responses.",
-      "Reduced irrelevant retrievals by 87% compared to baseline RAG.",
+      "94% answer accuracy on the production question set.",
+      "5M+ knowledge nodes, answers under 500ms.",
+      "87% fewer irrelevant retrievals than the flat-vector baseline it replaced.",
     ],
     stack: ["Neo4j", "Pinecone", "Hybrid Retrieval", "Knowledge Graphs", "Ranking"],
   },
   {
-    name: "Milvus Semantic Search Infrastructure",
+    name: "Milvus Search Infrastructure",
     category: "Vector Data Platform",
     summary:
-      "High-availability vector platform designed for large-scale retrieval, ingestion, and observability.",
+      "The shared vector layer 25 applications query instead of each team standing up their own index and drifting apart.",
     outcomes: [
-      "Served 25+ AI applications with 50M+ embeddings.",
-      "Achieved sub-50ms nearest-neighbor search latency.",
-      "Reduced infrastructure cost by 45% with optimization strategies.",
+      "50M+ embeddings serving 25+ applications.",
+      "Nearest-neighbor search under 50ms.",
+      "45% lower infrastructure cost after index and sharding work.",
     ],
     stack: ["Milvus", "IVF", "HNSW", "Distributed Systems", "Monitoring"],
   },
   {
-    name: "Open-Lovable Enterprise Extension",
+    name: "Open-Lovable Extension",
     category: "AI Code Generation",
     summary:
-      "Custom AI engineering assistant for full-stack code generation, context-aware scaffolding, and delivery acceleration.",
+      "An internal coding assistant that scaffolds across multiple files with the team's own conventions in context, rather than generating a plausible file in isolation.",
     outcomes: [
-      "Improved delivery velocity by 70% for development teams.",
-      "Lowered generation cost by 55% through token strategy optimization.",
-      "Added RAG-backed, multi-file, workflow-aware code generation.",
+      "70% faster delivery on scaffolding-heavy work.",
+      "55% lower generation cost after reworking what actually goes in the prompt.",
+      "Multi-file generation grounded in the existing repo.",
     ],
     stack: ["GPT-4", "Claude", "Prompt Engineering", "Next.js", "Automation"],
   },
   {
-    name: "Enterprise AI Agent Platform",
-    category: "Automation Workflows",
+    name: "Business Automation Platform",
+    category: "Workflow Orchestration",
     summary:
-      "Autonomous agent ecosystem with workflow orchestration across CRM, communication, and business operations.",
+      "Agents that run the repetitive middle of a business - intake, follow-up, routing, updates - across the tools a company already pays for.",
     outcomes: [
-      "Delivered 100+ automation workflows across 35+ businesses.",
-      "Reduced manual operations by 60% and increased productivity by 50%.",
-      "Integrated voice, SMS, WhatsApp, email, and CRM systems in one pipeline.",
+      "100+ workflows running across 35+ businesses.",
+      "60% less manual operations work for the teams using it.",
+      "Voice, SMS, WhatsApp, email, and CRM on one pipeline instead of five integrations.",
     ],
     stack: ["LangChain", "AutoGen", "CrewAI", "n8n", "Make", "Zapier", "Twilio"],
   },
@@ -393,36 +529,36 @@ export type EngagementModel = {
 
 export const engagementModels: EngagementModel[] = [
   {
-    title: "AI MVP Sprint",
+    title: "Build the first version",
     timeline: "2-4 weeks",
     summary:
-      "Fast execution for startups and teams that need a production-ready first version quickly.",
+      "You have the idea and the users, but no AI system yet. I build the first one that can go in front of them.",
     deliverables: [
-      "Architecture + technical scope",
-      "Core AI workflow and backend APIs",
-      "Deployment-ready MVP with handoff notes",
+      "Architecture and a scope we both agree is achievable",
+      "The core AI workflow and the API it runs on",
+      "Deployed, with notes your team can pick up from",
     ],
   },
   {
-    title: "Architecture and Reliability Upgrade",
+    title: "Fix what is already shipped",
     timeline: "1-3 weeks",
     summary:
-      "For existing AI products that need stronger quality, lower latency, and cleaner system design.",
+      "Something is live and it is too slow, too expensive, or wrong often enough that people have stopped trusting it.",
     deliverables: [
-      "System audit and bottleneck analysis",
-      "RAG/LLM reliability and evaluation plan",
-      "Implementation roadmap with prioritized fixes",
+      "An audit that names the actual bottleneck, not a list of best practices",
+      "An eval set, so the next change can be measured",
+      "A fix list in priority order, with effort against impact",
     ],
   },
   {
-    title: "Ongoing Product Engineering",
-    timeline: "Monthly collaboration",
+    title: "Stay on as the AI engineer",
+    timeline: "Monthly",
     summary:
-      "Long-term technical partnership for roadmap execution, feature delivery, and scaling.",
+      "Ongoing work with your team. Roadmap, features, and the unglamorous maintenance that keeps quality from sliding.",
     deliverables: [
-      "Feature implementation and iteration",
-      "Monitoring, optimization, and maintenance",
-      "Cross-functional support for product growth",
+      "Feature delivery alongside your engineers",
+      "Monitoring, cost tuning, and regression checks",
+      "Someone to ask before you commit to an approach",
     ],
   },
 ];
@@ -452,7 +588,7 @@ export const contactMethods: ContactMethod[] = [
 ];
 
 export const collaborationPoints = [
-  "Timezone overlap available for US and Gulf clients.",
-  "Fast response for architecture reviews and new product discovery.",
-  "Can start with a short scoping call before full implementation.",
+  "Based in Pakistan (PKT). I keep overlap with US and Gulf hours.",
+  "Architecture questions get a real answer, not a discovery call.",
+  "Happy to start with one scoped piece of work before anything longer.",
 ];

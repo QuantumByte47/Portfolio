@@ -63,7 +63,7 @@ export const Skills = () => {
         </div>
 
         <div className="text-[20px] text-gray-300 mt-[5px] text-center max-w-[800px]">
-          Comprehensive expertise across AI engineering, data science, and cloud technologies with 6+ years of experience delivering enterprise-grade solutions.
+          Comprehensive expertise across AI engineering, data science, and cloud technologies with 4+ years of experience delivering enterprise-grade solutions.
         </div>
       </div>
 

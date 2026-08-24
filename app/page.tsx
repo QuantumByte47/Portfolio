@@ -1,621 +1,741 @@
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 
-import { Badge } from "@/components/ui/badge";
-import { buttonVariants } from "@/components/ui/button";
+import { Reveal } from "@/components/reveal";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import {
-  advancedAiTooling,
-  backendPlatforms,
+  aboutParagraphs,
   collaborationPoints,
   contactMethods,
   credibilityPoints,
   engagementModels,
   experienceTimeline,
   featuredProducts,
-  frontendProviders,
   focusAreas,
   keyMetrics,
   liveProductBuilds,
-  toolbelt,
+  principles,
 } from "@/lib/portfolio-data";
 import { cn } from "@/lib/utils";
 
-function SectionHeading({
+import { CaseCarousel } from "@/components/case-carousel";
+import { ScrollProgress } from "@/components/scroll-progress";
+
+const EMAIL = "talhaislam471@gmail.com";
+const LINKEDIN = "https://www.linkedin.com/in/islamtalha/";
+const RESUME = "/Talha_Islam_AI_Resume.pdf";
+
+const NAV = [
+  { href: "#home", label: "/home" },
+  { href: "#work", label: "/work" },
+  { href: "#experience", label: "/experience" },
+  { href: "#about", label: "/about" },
+  { href: "#contact", label: "/contact" },
+];
+
+/* Skills that ride the yellow band under the hero. */
+const BAND = [
+  "Retrieval / RAG",
+  "Voice Agents",
+  "LLM Evaluation",
+  "Agent Orchestration",
+  "Vector Databases",
+  "Model Context Protocol",
+  "Production MLOps",
+  "Data Platforms",
+];
+
+function ArrowUpRight({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" className={cn("h-3.5 w-3.5", className)}>
+      <path
+        d="M4.5 11.5L11.5 4.5M11.5 4.5H5.5M11.5 4.5V10.5"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function DownloadIcon() {
+  return (
+    <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" className="h-3.5 w-3.5">
+      <path
+        d="M8 2.5V10.5M8 10.5L4.75 7.25M8 10.5L11.25 7.25M3 13h10"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function Check() {
+  return (
+    <svg viewBox="0 0 12 12" fill="none" aria-hidden="true" className="h-2.5 w-2.5">
+      <path
+        d="M2.5 6.2L4.8 8.5L9.5 3.8"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+/* Section heading: /eyebrow above a two-tone title, second half outlined. */
+function Head({
   eyebrow,
-  title,
-  description,
-  highlight,
+  lead,
+  outlined,
 }: {
   eyebrow: string;
-  title: string;
-  description: string;
-  highlight?: string;
+  lead: string;
+  outlined: string;
 }) {
-  const titleParts = highlight ? title.split(highlight) : [title];
-
   return (
-    <div className="space-y-3">
-      <Badge variant="secondary" className="highlight-pill w-fit border">
-        {eyebrow}
-      </Badge>
-      <h2 className="font-heading text-4xl leading-tight text-balance text-foreground sm:text-5xl">
-        {highlight && titleParts.length > 1 ? (
-          <>
-            {titleParts[0]}
-            <span className="highlight-text">{highlight}</span>
-            {titleParts.slice(1).join(highlight)}
-          </>
-        ) : (
-          title
-        )}
+    <div>
+      <p className="pf-eyebrow">/{eyebrow}</p>
+      <h2 className="pf-display mt-4 text-[clamp(2.3rem,6.2vw,4.4rem)]">
+        {lead} <span className="pf-outline">{outlined}</span>
       </h2>
-      <p className="max-w-3xl text-pretty text-muted-foreground">{description}</p>
     </div>
   );
 }
 
 export default function Home() {
+  const built = liveProductBuilds.filter((p) => p.involvement === "built");
+  const contributed = liveProductBuilds.filter((p) => p.involvement === "contributed");
+
   return (
-    <main className="relative isolate overflow-x-hidden bg-white pb-16">
-      <div aria-hidden="true" className="scroll-focus-bottom" />
+    <>
+      <ScrollProgress />
 
-      <div className="fixed inset-x-0 top-0 z-50 px-0">
-        <header className="mx-auto max-w-7xl rounded-b-xl border-x border-b border-white/70 bg-white/88 p-3 shadow-[0_18px_55px_-38px_rgba(15,23,42,0.65)] backdrop-blur-xl supports-[backdrop-filter]:bg-white/78 sm:px-4">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <div>
-              <p className="font-heading text-lg font-semibold text-foreground sm:text-xl">Talha Islam</p>
-              <p className="text-sm text-muted-foreground">Lead AI & Full-Stack Engineer | LLM, RAG, SaaS</p>
+      {/* ---------------- nav ---------------- */}
+      <header className="pf-nav">
+        <div className="mx-auto flex h-[72px] max-w-[1400px] items-center justify-between px-6 lg:px-10">
+          <Link href="#home" className="flex items-center gap-3">
+            <span
+              aria-hidden="true"
+              className="grid h-8 w-8 place-items-center border border-[var(--yellow)] text-[13px] font-black text-[var(--yellow)]"
+              style={{ fontFamily: "var(--font-display)" }}
+            >
+              TI
+            </span>
+            <span className="pf-label text-[13px] tracking-[0.3em]">Talha</span>
+          </Link>
+
+          <nav className="hidden items-center gap-7 md:flex">
+            {NAV.map((item, i) => (
+              <a
+                key={item.href}
+                href={item.href}
+                className="pf-navlink"
+                data-active={i === 0}
+              >
+                {item.label}
+              </a>
+            ))}
+          </nav>
+
+          <a href={`mailto:${EMAIL}`} className="pf-pill">
+            Let&rsquo;s talk <span aria-hidden="true">&rarr;</span>
+          </a>
+        </div>
+      </header>
+
+      {/* ---------------- hero ---------------- */}
+      <section id="home" className="relative min-h-[100svh] overflow-hidden pt-[72px]">
+        <div aria-hidden="true" className="pf-rail" />
+
+        {/*
+          Starts below the 72px nav rather than at the section top, so the
+          fixed bar never sits across the top of the head.
+        */}
+        <div className="pf-portrait absolute bottom-0 right-0 top-[72px] hidden w-[58%] lg:block">
+          <Image
+            src="/img1.png"
+            alt="Talha Islam"
+            width={1400}
+            height={1400}
+            priority
+            sizes="58vw"
+          />
+        </div>
+
+        {/* rotated edge marks */}
+        <div className="absolute right-6 top-1/2 hidden -translate-y-1/2 flex-col items-center gap-10 xl:flex">
+          <span className="pf-vertical">Rawalpindi &middot; Pakistan</span>
+          <span className="h-16 w-px bg-[#2e2e2e]" />
+          <span className="pf-vertical">Scroll</span>
+        </div>
+
+        <div className="relative mx-auto flex min-h-[calc(100svh-72px)] max-w-[1400px] flex-col justify-center px-6 pb-24 pt-16 lg:px-10">
+          <Reveal>
+            <div className="flex items-center gap-2.5">
+              <span className="h-1.5 w-1.5 rounded-full bg-[var(--green)]" />
+              <span className="pf-label pf-muted">Available for work</span>
             </div>
+          </Reveal>
 
-            <nav className="flex items-center gap-1">
-              {[
-                { href: "#products", label: "Products" },
-                { href: "#experience", label: "Experience" },
-                { href: "#stack", label: "Stack" },
-                { href: "#services", label: "Services" },
-                { href: "#contact", label: "Contact" },
-              ].map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={buttonVariants({
-                    variant: "ghost",
-                    size: "sm",
-                    className: "text-xs sm:text-sm",
-                  })}
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </nav>
-          </div>
-        </header>
+          {/*
+            Talha carries the hero; Islam sits under it, smaller and outlined -
+            the same two-tone device the section headings use.
+          */}
+          <Reveal delay={0.06}>
+            <h1 className="pf-display mt-10 text-[clamp(3.6rem,12.5vw,10rem)]">Talha</h1>
+          </Reveal>
+
+          <Reveal delay={0.1}>
+            <p className="pf-display pf-outline mt-2 text-[clamp(1.9rem,5.4vw,4.2rem)]">
+              Islam
+            </p>
+          </Reveal>
+
+          <Reveal delay={0.16}>
+            <div className="mt-8 flex items-center gap-5">
+              <span className="hidden h-px w-12 bg-[var(--yellow)] sm:block" />
+              <p className="pf-label text-[12px] tracking-[0.22em]">
+                Sr. AI Full Stack Engineer <span className="pf-muted">&middot;</span> RAG
+                &amp; Agents <span className="pf-muted">&middot;</span>{" "}
+                <span className="text-[var(--yellow)]">Builder</span>
+              </p>
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.22}>
+            <p className="mt-8 max-w-md text-[15px] leading-relaxed text-[#b0b0b0]">
+              Four years turning AI research into products people actually use. Retrieval
+              systems, voice and text agents, evaluation pipelines, and the backends that
+              hold them together.
+            </p>
+          </Reveal>
+
+          <Reveal delay={0.28}>
+            <div className="mt-10 flex flex-wrap gap-3">
+              <a href={`mailto:${EMAIL}`} className="pf-btn pf-btn-solid">
+                Start a project <ArrowUpRight />
+              </a>
+              <a href={RESUME} download className="pf-btn pf-btn-ghost">
+                Download CV <DownloadIcon />
+              </a>
+              <a href="#work" className="pf-btn pf-btn-ghost">
+                /View work
+              </a>
+            </div>
+          </Reveal>
+
+          {/*
+            The desktop portrait bleeds off the right edge, which there is no
+            room for on a phone. Rather than drop the face entirely, it comes
+            back here as a contained block below the buttons.
+          */}
+          <Reveal delay={0.34} className="lg:hidden">
+            <div className="pf-portrait pf-portrait-block relative mt-12 aspect-[4/3] w-full border border-[var(--line)]">
+              <Image
+                src="/img1.png"
+                alt="Talha Islam"
+                width={900}
+                height={900}
+                sizes="100vw"
+              />
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ---------------- yellow band ---------------- */}
+      <div className="pf-band">
+        <div className="pf-band-track">
+          {[...BAND, ...BAND].map((item, i) => (
+            <span key={`${item}-${i}`} className="pf-band-item">
+              {item}
+              {/* Braced string: a bare // as a JSX text child parses as a comment. */}
+              <span className="px-6 opacity-45">{"//"}</span>
+            </span>
+          ))}
+        </div>
       </div>
 
-      <div className="mx-auto flex max-w-7xl flex-col gap-12 px-4 pb-8 pt-32 sm:px-6 md:pt-28 lg:px-8">
-        <section className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-          <Card className="border-border/90 bg-white/95 shadow-[0_24px_80px_-55px_rgba(15,23,42,0.55)]">
-            <CardHeader className="space-y-4">
-              <CardTitle className="font-heading text-4xl leading-tight text-balance sm:text-5xl">
-                I build robust <span className="highlight-text">AI products</span>, not demos.
-              </CardTitle>
-              <CardDescription className="text-base text-muted-foreground">
-                Senior AI engineer focused on end-to-end delivery: architecture, APIs, model reliability, agent orchestration, and production deployment. Proven experience across 100+ projects and dozens of shipped products.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-5">
-              <div className="flex flex-wrap gap-2">
-                {focusAreas.map((area) => (
-                  <Badge key={area} variant="outline" className="border-border bg-slate-50 text-foreground">
-                    {area}
-                  </Badge>
-                ))}
-              </div>
+      {/* ---------------- numbers ---------------- */}
+      <section className="mx-auto max-w-[1400px] px-6 py-24 lg:px-10 lg:py-32">
+        <Reveal>
+          <Head eyebrow="numbers" lead="By the" outlined="Numbers" />
+        </Reveal>
 
-              <div className="flex flex-wrap gap-3">
-                <Link
-                  href="#contact"
-                  className={buttonVariants({ size: "lg", className: "shadow-sm" })}
+        <div className="mt-16 grid border-l border-t border-[var(--line)] sm:grid-cols-2 lg:grid-cols-3">
+          {keyMetrics.map((metric, i) => (
+            <Reveal key={metric.label} delay={i * 0.06}>
+              <div className="pf-cell h-full p-8 lg:p-10">
+                <p
+                  className="text-[clamp(2.8rem,5vw,3.8rem)] font-black leading-none text-[var(--yellow)]"
+                  style={{ fontFamily: "var(--font-display)" }}
                 >
-                  Discuss Your Product
-                </Link>
-                <Link
-                  href="#experience"
-                  className={buttonVariants({ variant: "outline", size: "lg" })}
-                >
-                  View Experience
-                </Link>
+                  {metric.value}
+                </p>
+                <p className="pf-label mt-5">{metric.label}</p>
+                <p className="mt-4 text-[14px] leading-relaxed text-[#8d8d8d]">
+                  {metric.detail}
+                </p>
               </div>
-            </CardContent>
-          </Card>
+            </Reveal>
+          ))}
 
-          <Card className="bg-white/95">
-            <CardHeader>
-              <CardTitle>Execution Highlights</CardTitle>
-              <CardDescription>
-                Results repeatedly delivered in production environments.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-3">
-                {credibilityPoints.map((point) => (
-                  <li key={point} className="rounded-lg border border-border bg-muted/30 px-4 py-3 text-sm text-foreground">
-                    {point}
-                  </li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
-        </section>
+          {/*
+            Five metrics in a three-column grid leaves a hole. Filling it with
+            the call to action turns the gap into the one thing the section
+            should lead to.
+          */}
+          <Reveal delay={keyMetrics.length * 0.06}>
+            <a
+              href={`mailto:${EMAIL}`}
+              className="pf-cell group flex h-full flex-col justify-between gap-8 p-8 transition-colors hover:bg-[var(--panel)] lg:p-10"
+            >
+              <div className="flex items-center gap-2.5">
+                <span className="h-1.5 w-1.5 rounded-full bg-[var(--green)]" />
+                <span className="pf-label pf-muted">Available for work</span>
+              </div>
+              <div>
+                <p className="pf-display pf-display-sm text-[1.5rem] transition-colors group-hover:text-[var(--yellow)]">
+                  Start a project
+                </p>
+                <span className="pf-label mt-4 inline-flex items-center gap-2 text-[var(--yellow)]">
+                  Get in touch <ArrowUpRight />
+                </span>
+              </div>
+            </a>
+          </Reveal>
+        </div>
+      </section>
 
-        <section>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {keyMetrics.map((metric) => (
-              <Card key={metric.label} className="border-border/90 bg-white/95">
-                <CardHeader>
-                  <CardDescription className="text-xs uppercase tracking-[0.12em] text-muted-foreground">
-                    {metric.label}
-                  </CardDescription>
-                  <CardTitle className="font-heading text-4xl highlight-text">{metric.value}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground">{metric.detail}</p>
-                </CardContent>
-              </Card>
-            ))}
+      {/* ---------------- selected cases ---------------- */}
+      <section id="work" className="scroll-mt-24 py-24 lg:py-32">
+        <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
+          <Reveal>
+            <Head eyebrow="work" lead="Selected" outlined="Cases" />
+            <p className="mt-6 max-w-xl text-[15px] leading-relaxed text-[#8d8d8d]">
+              Four products I built end to end with a small team. Each one is live and has
+              real users on it.
+            </p>
+          </Reveal>
+        </div>
+
+        <div className="mt-14 pl-6 lg:pl-10">
+          <div className="mx-auto max-w-[1400px] pr-6 lg:pr-10">
+            <CaseCarousel items={built} />
           </div>
-        </section>
+        </div>
 
-        <Separator />
+        {/* contributed — smaller, and labelled */}
+        <div className="mx-auto mt-28 max-w-[1400px] px-6 lg:px-10">
+          <Reveal>
+            <p className="pf-eyebrow">/contributed</p>
+            <h3 className="pf-display mt-4 text-[clamp(1.6rem,3.4vw,2.4rem)]">
+              One layer, <span className="pf-outline">not the product</span>
+            </h3>
+            <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-[#8d8d8d]">
+              Other companies&rsquo; platforms. Listing only what I actually touched,
+              because you can go and check.
+            </p>
+          </Reveal>
 
-        <section id="products" className="space-y-6 scroll-mt-28">
-          <SectionHeading
-            eyebrow="Live Products"
-            title="Public products I architected and built with teams"
-            highlight="built with teams"
-            description="Real shipped products across voice AI, financial intelligence, AI reliability, and legal automation."
-          />
-
-          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-6">
-            {liveProductBuilds.map((product, index) => (
-              <Card
-                key={product.name}
-                className={cn(
-                  "group relative h-full overflow-hidden rounded-xl border border-slate-200/90 bg-white shadow-[0_24px_70px_-58px_rgba(15,23,42,0.78)] transition-all duration-300 hover:-translate-y-1 hover:border-slate-300 hover:shadow-[0_34px_90px_-58px_rgba(15,23,42,0.88)]",
-                  index < 3 ? "xl:col-span-2" : "xl:col-span-3"
-                )}
-              >
-                <div className="pointer-events-none absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--highlight)/0.55)] to-transparent" />
-                <div className="relative m-3 h-40 overflow-hidden rounded-lg border border-slate-200 bg-slate-50">
-                  <Image
-                    src={product.image}
-                    alt={`${product.name} homepage visual`}
-                    width={1200}
-                    height={720}
-                    sizes="(min-width: 1280px) 20vw, (min-width: 768px) 50vw, 100vw"
-                    className={cn(
-                      "h-full w-full transition-transform duration-500 group-hover:scale-[1.04]",
-                      product.imageFit === "contain"
-                        ? "object-contain p-5"
-                        : "object-cover"
-                    )}
-                  />
-                  <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white via-white/60 to-transparent" />
-                  <Badge variant="secondary" className="highlight-pill absolute left-3 top-3 border bg-white/80 backdrop-blur">
-                    Live
-                  </Badge>
-                </div>
-                <CardHeader className="space-y-3 px-5 pb-4 pt-1">
-                  <div className="space-y-1">
-                    <CardDescription className="text-xs uppercase tracking-[0.14em]">
-                      {product.category}
-                    </CardDescription>
-                    <CardTitle className="text-2xl leading-tight">{product.name}</CardTitle>
+          <div className="mt-12 grid border-l border-t border-[var(--line)] md:grid-cols-3">
+            {contributed.map((product, i) => (
+              <Reveal key={product.name} delay={i * 0.06}>
+                <div className="pf-cell group flex h-full flex-col">
+                  <div className="relative aspect-[16/10] overflow-hidden border-b border-[var(--line)] bg-[var(--panel)]">
+                    <Image
+                      src={product.image}
+                      alt={`${product.name} interface`}
+                      width={800}
+                      height={500}
+                      sizes="(min-width: 768px) 33vw, 100vw"
+                      className="h-full w-full object-cover opacity-45 grayscale transition-all duration-700 group-hover:scale-[1.04] group-hover:opacity-80 group-hover:grayscale-0"
+                    />
+                    <div
+                      aria-hidden="true"
+                      className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/35 to-transparent"
+                    />
                   </div>
-                  <p className="line-clamp-2 text-sm leading-relaxed text-muted-foreground">
-                    {product.summary}
-                  </p>
-                </CardHeader>
-                <CardContent className="space-y-4 px-5 pb-5 pt-0">
-                  <div className="flex flex-wrap gap-2">
-                    {product.stack.slice(0, 3).map((item) => (
-                      <Badge key={`${product.name}-${item}`} variant="outline" className="border-slate-200 bg-slate-50 text-slate-700">
-                        {item}
-                      </Badge>
+
+                  <div className="flex flex-1 flex-col p-8">
+                    <p className="pf-label pf-muted">{product.category}</p>
+                    <h4 className="pf-display mt-3 text-[1.75rem] transition-colors group-hover:text-[var(--yellow)]">
+                      {product.name}
+                    </h4>
+                    <p className="mt-4 flex-1 text-[14px] leading-relaxed text-[#8d8d8d]">
+                      {product.role}
+                    </p>
+
+                  <div className="mt-6 flex flex-wrap gap-2">
+                    {product.keywords.slice(0, 3).map((keyword) => (
+                      <span key={keyword} className="pf-tag">
+                        {keyword}
+                      </span>
                     ))}
                   </div>
 
-                  <div className="rounded-lg border border-slate-200 bg-slate-50/70 p-3">
-                    <p className="line-clamp-2 text-sm font-medium leading-relaxed text-foreground">
-                      {product.role}
+                    {product.url ? (
+                      <a
+                        href={product.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="pf-label mt-7 inline-flex items-center gap-2 text-[var(--yellow)]"
+                      >
+                        Visit <ArrowUpRight />
+                      </a>
+                    ) : null}
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+
+        {/* infrastructure list */}
+        <div className="mx-auto mt-28 max-w-[1400px] px-6 lg:px-10">
+          <Reveal>
+            <p className="pf-eyebrow">/infrastructure</p>
+            <h3 className="pf-display mt-4 text-[clamp(1.6rem,3.4vw,2.4rem)]">
+              Systems <span className="pf-outline">underneath</span>
+            </h3>
+          </Reveal>
+
+          <div className="mt-12">
+            {featuredProducts.map((product, i) => (
+              <Reveal key={product.name} delay={i * 0.04}>
+                <div className="pf-row grid gap-6 px-1 py-8 md:grid-cols-[0.9fr_1.1fr] md:gap-12 md:px-4">
+                  <div>
+                    <p className="pf-label pf-muted">{product.category}</p>
+                    <h4 className="pf-display mt-3 text-[1.6rem]">{product.name}</h4>
+                    <p className="mt-4 text-[14px] leading-relaxed text-[#8d8d8d]">
+                      {product.summary}
                     </p>
                   </div>
 
-                  <div className="flex items-center justify-between gap-3">
-                    <details className="group/details">
-                      <summary className="cursor-pointer list-none text-xs font-semibold uppercase tracking-[0.12em] text-muted-foreground transition-colors hover:text-foreground">
-                        View Notes
-                      </summary>
-                      <div className="absolute inset-x-5 bottom-16 z-10 rounded-lg border border-slate-200 bg-white/95 p-3 shadow-[0_22px_50px_-35px_rgba(15,23,42,0.9)] backdrop-blur">
-                        <ul className="space-y-2">
-                          {product.highlights.slice(0, 2).map((highlight) => (
-                            <li key={highlight} className="text-sm leading-relaxed text-muted-foreground">
-                              {highlight}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </details>
-                    <Link
-                      href={product.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={buttonVariants({ variant: "outline", size: "sm", className: "h-8 px-3 text-xs" })}
-                    >
-                      Open
-                    </Link>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          <div className="pt-4">
-            <h3 className="font-heading text-2xl leading-tight text-foreground">
-              Additional <span className="highlight-text">flagship systems</span>
-            </h3>
-            <p className="mt-2 max-w-3xl text-sm text-muted-foreground">
-              Supporting platform work from the broader portfolio, including voice infrastructure,
-              retrieval systems, vector data platforms, and automation layers.
-            </p>
-          </div>
-
-          <div className="grid gap-4 lg:grid-cols-2">
-            {featuredProducts.map((product) => (
-              <Card key={product.name} className="h-full border-border/90 bg-white/95">
-                <CardHeader className="space-y-3">
-                  <Badge variant="secondary" className="w-fit border border-border bg-slate-100 text-slate-700">
-                    {product.category}
-                  </Badge>
-                  <CardTitle className="text-2xl">{product.name}</CardTitle>
-                  <CardDescription className="text-sm">{product.summary}</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <ul className="space-y-2">
+                  <div className="space-y-3">
                     {product.outcomes.map((outcome) => (
-                      <li key={outcome} className="rounded-md border border-border bg-muted/20 px-3 py-2 text-sm">
+                      <p key={outcome} className="flex gap-3 text-[14px] leading-relaxed text-[#a8a8a8]">
+                        <span aria-hidden="true" className="mt-[0.6rem] h-px w-3.5 shrink-0 bg-[var(--yellow)]" />
                         {outcome}
-                      </li>
+                      </p>
                     ))}
-                  </ul>
-                  <div className="flex flex-wrap gap-2">
-                    {product.stack.map((item) => (
-                      <Badge key={item} variant="outline" className="border-border bg-slate-50">
-                        {item}
-                      </Badge>
-                    ))}
+                    <div className="flex flex-wrap gap-2 pt-3">
+                      {product.stack.map((item) => (
+                        <span key={item} className="pf-tag">
+                          {item}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </Reveal>
+            ))}
+            <div className="border-t border-[var(--line)]" />
+          </div>
+        </div>
+      </section>
+
+      {/* ---------------- experience ---------------- */}
+      <section
+        id="experience"
+        className="scroll-mt-24 border-y border-[var(--line)] bg-[var(--panel)] py-24 lg:py-32"
+      >
+        <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
+          <Reveal>
+            <Head eyebrow="experience" lead="Work" outlined="History" />
+          </Reveal>
+
+          {/*
+            No Reveal wrapper on these: its transform would become the
+            containing block for the sticky child and break the stack.
+          */}
+          <div className="mt-16 pb-8">
+            {experienceTimeline.map((role, i) => (
+              <div
+                key={`${role.company}-${role.role}`}
+                className="pf-stack-item mb-6"
+                style={{ top: `${96 + i * 18}px`, zIndex: i + 1 }}
+              >
+                <div className="pf-stack-card relative grid gap-6 p-7 md:p-9 lg:grid-cols-[auto_1fr_auto] lg:gap-12">
+                  <span className="pf-eyebrow pt-2">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+
+                  <div>
+                    <h3 className="pf-display text-[1.7rem]">
+                      {role.role}
+                      <span className="text-[#6f6f6f]"> / </span>
+                      <span className="text-[var(--yellow)]">{role.company}</span>
+                    </h3>
+
+                    <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-[#a8a8a8]">
+                      {role.summary}
+                    </p>
+
+                    <div className="mt-6 space-y-3">
+                      {role.impact.map((item) => (
+                        <p key={item} className="flex gap-3 text-[14px] leading-relaxed text-[#8d8d8d]">
+                          <span aria-hidden="true" className="mt-[0.6rem] h-px w-3.5 shrink-0 bg-[#3a3a3a]" />
+                          {item}
+                        </p>
+                      ))}
+                    </div>
+
+                    <div className="mt-6 flex flex-wrap gap-2">
+                      {role.stack.map((item) => (
+                        <span key={item} className="pf-tag">
+                          {item}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="lg:text-right">
+                    <p className="pf-label">{role.period}</p>
+                    <p className="pf-label pf-muted mt-2 tracking-[0.18em]">{role.location}</p>
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        <Separator />
+      {/* ---------------- about ---------------- */}
+      <section id="about" className="scroll-mt-24 py-24 lg:py-32">
+        <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
+          <Reveal>
+            <Head eyebrow="about" lead="How I" outlined="Work" />
+          </Reveal>
 
-        <section id="experience" className="space-y-6 scroll-mt-28">
-          <SectionHeading
-            eyebrow="Career"
-            title="Experience building and scaling AI products"
-            highlight="AI products"
-            description="Hands-on delivery from research and architecture through production rollout and operational optimization."
-          />
+          <div className="mt-16 grid gap-14 lg:grid-cols-[1fr_1.05fr] lg:gap-20">
+            <Reveal>
+              <div className="space-y-6">
+                {aboutParagraphs.map((paragraph) => (
+                  <p key={paragraph} className="text-[16px] leading-relaxed text-[#b0b0b0]">
+                    {paragraph}
+                  </p>
+                ))}
 
-          <div className="grid gap-4">
-            {experienceTimeline.map((role) => (
-              <Card key={`${role.company}-${role.role}`}>
-                <CardHeader className="gap-3 sm:flex-row sm:items-start sm:justify-between">
-                  <div className="space-y-1">
-                    <CardTitle className="text-xl">
-                      {role.role} <span className="highlight-text">@ {role.company}</span>
-                    </CardTitle>
-                    <CardDescription>{role.summary}</CardDescription>
-                  </div>
-                  <div className="rounded-lg border border-border bg-muted/30 px-3 py-2 text-sm text-muted-foreground sm:text-right">
-                    <p>{role.period}</p>
-                    <p>{role.location}</p>
-                  </div>
-                </CardHeader>
-
-                <CardContent className="space-y-4">
-                  <div className="grid gap-2">
-                    {role.impact.map((item) => (
-                      <p key={item} className="rounded-md border border-border bg-muted/20 px-3 py-2 text-sm">
-                        {item}
+                <div className="pt-4">
+                  <p className="pf-label text-[var(--yellow)]">Numbers I can account for</p>
+                  <div className="mt-5 space-y-3">
+                    {credibilityPoints.map((point) => (
+                      <p key={point} className="flex gap-3 text-[14px] leading-relaxed text-[#8d8d8d]">
+                        <span aria-hidden="true" className="mt-[0.6rem] h-px w-3.5 shrink-0 bg-[var(--yellow)]" />
+                        {point}
                       </p>
                     ))}
                   </div>
-                  <div className="flex flex-wrap gap-2">
-                    {role.stack.map((item) => (
-                      <Badge key={item} variant="secondary" className="border border-border bg-slate-100 text-slate-700">
-                        {item}
-                      </Badge>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </section>
-
-        <Separator />
-
-        <section id="stack" className="space-y-7 scroll-mt-28">
-          <SectionHeading
-            eyebrow="Technology Stack"
-            title="Technology stack for serious AI products"
-            highlight="Technology stack"
-            description="A focused view of the frameworks, platforms, and AI systems I use to ship production-grade products."
-          />
-
-          <div className="space-y-4">
-            {[
-              {
-                label: "Model Layer",
-                items: [
-                  "GPT-4",
-                  "Claude",
-                  "LangGraph",
-                  "CrewAI",
-                  "AutoGen",
-                  "GraphRAG",
-                  "RAGAS",
-                  "LangSmith",
-                  "LlamaIndex",
-                  "LangChain",
-                  "OpenAI",
-                  "Anthropic",
-                  "Vector Search",
-                  "Prompt Ops",
-                  ...advancedAiTooling.slice(0, 4),
-                ],
-              },
-              {
-                label: "Backend",
-                reverse: true,
-                items: [
-                  "FastAPI",
-                  "Node.js",
-                  "PostgreSQL",
-                  "Redis",
-                  "Docker",
-                  "Kubernetes",
-                  "AWS",
-                  "MongoDB",
-                  "Qdrant",
-                  "Microservices",
-                  "REST APIs",
-                  "Webhooks",
-                  "Queues",
-                  ...backendPlatforms,
-                ],
-              },
-              {
-                label: "Frontend",
-                items: [
-                  "React",
-                  "Next.js",
-                  "TypeScript",
-                  "Tailwind",
-                  "Radix UI",
-                  "Framer Motion",
-                  "shadcn/ui",
-                  "Design Systems",
-                  "Dashboards",
-                  "Responsive UI",
-                  "Server Components",
-                  "API Clients",
-                  ...frontendProviders,
-                ],
-              },
-              {
-                label: "Data + Voice",
-                reverse: true,
-                items: [
-                  "Pinecone",
-                  "Qdrant",
-                  "Milvus",
-                  "Neo4j",
-                  "Twilio",
-                  "Whisper",
-                  "Deepgram",
-                  "ElevenLabs",
-                  "ETL",
-                  "Analytics",
-                  "Observability",
-                  "Embeddings",
-                  "Semantic Search",
-                  "Voice Agents",
-                  ...toolbelt.slice(0, 8),
-                ],
-              },
-            ].map((row) => (
-              <div
-                key={row.label}
-                className={cn("stack-marquee", row.reverse ? "stack-marquee-reverse" : "")}
-              >
-                <div className="mb-3 flex items-center gap-3 px-2">
-                  <span className="h-px flex-1 bg-border" />
-                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                    {row.label}
-                  </p>
-                  <span className="h-px flex-1 bg-border" />
                 </div>
-                <div className="stack-marquee-track">
-                  {[...row.items, ...row.items].map((item, itemIndex) => (
-                    <span key={`${row.label}-${item}-${itemIndex}`} className="stack-word">
-                      {item}
+
+                <div className="flex flex-wrap gap-2 pt-2">
+                  {focusAreas.map((area) => (
+                    <span key={area} className="pf-tag">
+                      {area}
                     </span>
                   ))}
                 </div>
               </div>
-            ))}
-          </div>
-        </section>
+            </Reveal>
 
-        <Separator />
-
-        <section id="services" className="space-y-6 scroll-mt-28">
-          <SectionHeading
-            eyebrow="Work With Me"
-            title="Engagement options based on your project stage"
-            highlight="Engagement options"
-            description="Choose a delivery model that matches your timeline, team, and technical depth requirements."
-          />
-
-          <div className="grid gap-4 lg:grid-cols-3">
-            {engagementModels.map((model) => (
-              <Card key={model.title} className="h-full border-border/90 bg-white/95">
-                <CardHeader className="space-y-2">
-                  <Badge variant="secondary" className="w-fit border border-border bg-slate-100 text-slate-700">
-                    {model.timeline}
-                  </Badge>
-                  <CardTitle className="text-2xl">{model.title}</CardTitle>
-                  <CardDescription>{model.summary}</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-2">
-                    {model.deliverables.map((item) => (
-                      <p
-                        key={`${model.title}-${item}`}
-                        className="rounded-md border border-border bg-muted/20 px-3 py-2 text-sm"
-                      >
-                        {item}
+            <div className="grid border-l border-t border-[var(--line)] sm:grid-cols-2">
+              {principles.map((principle, i) => (
+                <Reveal key={principle.title} delay={i * 0.06}>
+                  <div
+                    className={cn(
+                      "pf-cell pf-tilt h-full p-7",
+                      /* The first principle goes solid so the grid has a focal point. */
+                      i === 0 && "pf-card-accent"
+                    )}
+                  >
+                    <div className="pf-tilt-inner">
+                      <span className="pf-eyebrow">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <h3 className="pf-display pf-display-sm mt-4 text-[1.15rem]">
+                        {principle.title}
+                      </h3>
+                      <p className="mt-4 text-[13.5px] leading-relaxed text-[#8d8d8d]">
+                        {principle.detail}
                       </p>
-                    ))}
+                    </div>
                   </div>
-                </CardContent>
-              </Card>
-            ))}
+                </Reveal>
+              ))}
+            </div>
           </div>
-        </section>
 
-        <Separator />
+          {/* engagement models */}
+          <div className="mt-24">
+            <Reveal>
+              <p className="pf-eyebrow">/engagements</p>
+              <h3 className="pf-display mt-4 text-[clamp(1.6rem,3.4vw,2.4rem)]">
+                Three ways this <span className="pf-outline">starts</span>
+              </h3>
+            </Reveal>
 
-        <section id="contact" className="space-y-6 scroll-mt-28">
-          <SectionHeading
-            eyebrow="Contact"
-            title="Direct contact information"
-            highlight="Direct contact"
-            description="Use any channel below for project discussions, consulting requests, or partnership opportunities."
-          />
-
-          <div className="grid gap-4 lg:grid-cols-[1.05fr_0.95fr]">
-            <Card className="border-border/90 bg-white/95">
-              <CardHeader>
-                <CardTitle>Reach Out</CardTitle>
-                <CardDescription>
-                  Fastest response is usually via email or LinkedIn.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                {contactMethods.map((method) => (
+            <div className="mt-12 grid gap-5 lg:grid-cols-3">
+              {engagementModels.map((model, i) => (
+                <Reveal key={model.title} delay={i * 0.08}>
                   <a
-                    key={method.label}
+                    href={`mailto:${EMAIL}?subject=${encodeURIComponent(model.title)}`}
+                    className="pf-engage group h-full flex-col p-8 lg:p-9"
+                  >
+                    <span aria-hidden="true" className="pf-engage-num">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+
+                    <div className="relative flex items-center gap-2.5">
+                      <span aria-hidden="true" className="pf-engage-dot" />
+                      <span className="pf-label pf-engage-time">{model.timeline}</span>
+                    </div>
+
+                    <h4 className="pf-display pf-display-sm relative mt-7 text-[1.5rem]">
+                      {model.title}
+                    </h4>
+
+                    <p className="pf-engage-body relative mt-4 flex-1 text-[14px] leading-relaxed">
+                      {model.summary}
+                    </p>
+
+                    <ul className="pf-engage-rule relative mt-8 space-y-3.5 border-t pt-7">
+                      {model.deliverables.map((item) => (
+                        <li
+                          key={item}
+                          className="pf-engage-item flex gap-3.5 text-[13.5px] leading-relaxed"
+                        >
+                          <span aria-hidden="true" className="pf-engage-tick">
+                            <Check />
+                          </span>
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+
+                    <span className="pf-engage-cta pf-label relative mt-8 inline-flex items-center gap-2">
+                      Start here
+                      <ArrowUpRight />
+                    </span>
+                  </a>
+                </Reveal>
+              ))}
+            </div>
+
+            {/*
+              A third option for anyone who does not recognise themselves in the
+              three above.
+            */}
+            <Reveal delay={0.1}>
+              <div className="mt-5 flex flex-wrap items-center justify-between gap-6 border border-[var(--line)] bg-[var(--panel)] p-7 lg:px-9">
+                <p className="max-w-2xl text-[15px] leading-relaxed text-[#a8a8a8]">
+                  Not sure which one fits? Describe what you are building and I will tell
+                  you which of the three it is &mdash; or that you do not need me yet.
+                </p>
+                <a href={`mailto:${EMAIL}`} className="pf-btn pf-btn-solid shrink-0">
+                  Ask me <ArrowUpRight />
+                </a>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* ---------------- contact ---------------- */}
+      <section
+        id="contact"
+        className="scroll-mt-24 border-t border-[var(--line)] bg-[var(--panel)] py-24 lg:py-32"
+      >
+        <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
+          <Reveal>
+            <Head eyebrow="contact" lead="Let&rsquo;s" outlined="Talk" />
+            <p className="mt-7 max-w-xl text-[16px] leading-relaxed text-[#b0b0b0]">
+              Send the product, the current stack, and what is not working. You will get a
+              real technical answer back, not a calendar link.
+            </p>
+          </Reveal>
+
+          <div className="mt-16 grid gap-14 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20">
+            {/*
+              min-w-0 matters here: a grid item defaults to min-width:auto, so
+              the nowrap email address was widening the whole column past the
+              viewport on phones instead of truncating.
+            */}
+            <div className="min-w-0">
+              {contactMethods.map((method, i) => (
+                <Reveal key={method.label} delay={i * 0.06}>
+                  <a
                     href={method.href}
                     target={method.href.startsWith("mailto:") ? undefined : "_blank"}
                     rel={method.href.startsWith("mailto:") ? undefined : "noopener noreferrer"}
-                    className="flex items-center justify-between rounded-lg border border-border bg-white px-4 py-3 transition-colors hover:bg-accent"
+                    className="pf-row group flex items-center justify-between gap-6 px-1 py-7 md:px-3"
                   >
-                    <div>
-                      <p className="text-xs uppercase tracking-[0.12em] text-muted-foreground">
-                        {method.label}
+                    <div className="min-w-0">
+                      <p className="pf-label pf-muted">{method.label}</p>
+                      <p className="pf-display mt-3 truncate text-[clamp(1.2rem,2.6vw,1.8rem)] transition-colors group-hover:text-[var(--yellow)]">
+                        {method.value}
                       </p>
-                      <p className="font-medium text-foreground">{method.value}</p>
                     </div>
-                    <span className="text-sm font-medium highlight-text">Open</span>
+                    <span className="pf-arrow shrink-0 group-hover:border-[var(--yellow)] group-hover:text-[var(--yellow)]">
+                      <ArrowUpRight className="h-4 w-4" />
+                    </span>
                   </a>
-                ))}
-              </CardContent>
-            </Card>
-
-            <Card className="border-border/90 bg-white">
-              <CardHeader>
-                <CardTitle>Availability and Workflow</CardTitle>
-                <CardDescription>
-                  What you can expect when starting a project with me.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                {collaborationPoints.map((point) => (
-                  <p
-                    key={point}
-                    className="rounded-md border border-border bg-muted/20 px-3 py-2 text-sm"
-                  >
-                    {point}
-                  </p>
-                ))}
-                <div className="highlight-panel rounded-lg border p-4">
-                  <p className="font-heading text-lg font-semibold text-foreground">
-                    Quick Start
-                  </p>
-                  <p className="mt-1 text-sm text-muted-foreground">
-                    Send your product idea, current stack, and goals. I will reply with a practical implementation direction.
-                  </p>
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    <a
-                      href="mailto:talhaislam471@gmail.com"
-                      className={buttonVariants({ size: "sm" })}
-                    >
-                      Email Now
-                    </a>
-                    <a
-                      href="https://www.linkedin.com/in/islamtalha/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={buttonVariants({ variant: "outline", size: "sm" })}
-                    >
-                      Message on LinkedIn
-                    </a>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </section>
-
-        <footer className="rounded-xl border border-border bg-card px-5 py-4">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <p className="text-sm text-muted-foreground">
-              © {new Date().getFullYear()} Talha Islam
-            </p>
-            <div className="flex flex-wrap gap-2">
-              <a
-                href="https://www.linkedin.com/in/islamtalha/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={buttonVariants({ variant: "ghost", size: "sm" })}
-              >
-                LinkedIn
-              </a>
-              <a
-                href="mailto:talhaislam471@gmail.com"
-                className={buttonVariants({ variant: "ghost", size: "sm" })}
-              >
-                Email
-              </a>
+                </Reveal>
+              ))}
+              <div className="border-t border-[var(--line)]" />
             </div>
+
+            <Reveal delay={0.1}>
+              <div className="border border-[var(--line)] p-8">
+                <div className="flex items-center gap-2.5">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[var(--green)]" />
+                  <span className="pf-label">Currently available</span>
+                </div>
+
+                <div className="mt-7 space-y-4">
+                  {collaborationPoints.map((point) => (
+                    <p key={point} className="flex gap-3 text-[14px] leading-relaxed text-[#8d8d8d]">
+                      <span aria-hidden="true" className="mt-[0.6rem] h-px w-3.5 shrink-0 bg-[#3a3a3a]" />
+                      {point}
+                    </p>
+                  ))}
+                </div>
+
+                <div className="mt-9 flex flex-wrap gap-3 border-t border-[var(--line)] pt-7">
+                  <a href={`mailto:${EMAIL}`} className="pf-btn pf-btn-solid">
+                    Email <ArrowUpRight />
+                  </a>
+                  <a href={RESUME} download className="pf-btn pf-btn-ghost">
+                    Résumé <DownloadIcon />
+                  </a>
+                  <a
+                    href={LINKEDIN}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="pf-btn pf-btn-ghost"
+                  >
+                    LinkedIn
+                  </a>
+                </div>
+              </div>
+            </Reveal>
           </div>
-        </footer>
-      </div>
-    </main>
+        </div>
+      </section>
+
+      {/* ---------------- footer ---------------- */}
+      <footer className="border-t border-[var(--line)] py-9">
+        <div className="mx-auto flex max-w-[1400px] flex-wrap items-center justify-between gap-4 px-6 lg:px-10">
+          <p className="pf-label pf-muted">
+            &copy; {new Date().getFullYear()} Talha Islam
+          </p>
+          <p className="pf-label pf-muted">Rawalpindi &middot; Pakistan</p>
+        </div>
+      </footer>
+    </>
   );
 }
