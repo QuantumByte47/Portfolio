@@ -58,6 +58,13 @@ function ArrowUpRight({ className }: { className?: string }) {
   );
 }
 
+/* Keeps the prose in sync with the data instead of a hardcoded number. */
+const COUNT_WORDS = ["Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"];
+
+function countWord(n: number) {
+  return COUNT_WORDS[n] ?? String(n);
+}
+
 function DownloadIcon() {
   return (
     <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" className="h-3.5 w-3.5">
@@ -317,8 +324,8 @@ export default function Home() {
           <Reveal>
             <Head eyebrow="work" lead="Selected" outlined="Cases" />
             <p className="mt-6 max-w-xl text-[15px] leading-relaxed text-[#8d8d8d]">
-              Four products I built end to end with a small team. Each one is live and has
-              real users on it.
+              {countWord(built.length)} products I built end to end with a small team,
+              from architecture through to what runs in production.
             </p>
           </Reveal>
         </div>
@@ -347,14 +354,18 @@ export default function Home() {
               <Reveal key={product.name} delay={i * 0.06}>
                 <div className="pf-cell group flex h-full flex-col">
                   <div className="relative aspect-[16/10] overflow-hidden border-b border-[var(--line)] bg-[var(--panel)]">
-                    <Image
-                      src={product.image}
-                      alt={`${product.name} interface`}
-                      width={800}
-                      height={500}
-                      sizes="(min-width: 768px) 33vw, 100vw"
-                      className="h-full w-full object-cover opacity-45 grayscale transition-all duration-700 group-hover:scale-[1.04] group-hover:opacity-80 group-hover:grayscale-0"
-                    />
+                    {product.image ? (
+                      <Image
+                        src={product.image}
+                        alt={`${product.name} interface`}
+                        width={800}
+                        height={500}
+                        sizes="(min-width: 768px) 33vw, 100vw"
+                        className="h-full w-full object-cover opacity-45 grayscale transition-all duration-700 group-hover:scale-[1.04] group-hover:opacity-80 group-hover:grayscale-0"
+                      />
+                    ) : (
+                      <div className="pf-case-blank" aria-hidden="true" />
+                    )}
                     <div
                       aria-hidden="true"
                       className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/35 to-transparent"

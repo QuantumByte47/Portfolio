@@ -98,16 +98,21 @@ export function CaseCarousel({ items }: { items: LiveProductBuild[] }) {
       <div ref={railRef} className="pf-rail-scroll pb-2">
         {items.map((product, i) => (
           <article key={product.name} className="pf-case">
-            <div className="pf-case-media">
-              <Image
-                src={product.image}
-                alt=""
-                width={1400}
-                height={900}
-                sizes="(min-width: 1024px) 900px, 85vw"
-                priority={i === 0}
-              />
-            </div>
+            {/* Products without artwork get a tinted panel rather than a broken image. */}
+            {product.image ? (
+              <div className="pf-case-media">
+                <Image
+                  src={product.image}
+                  alt=""
+                  width={1400}
+                  height={900}
+                  sizes="(min-width: 1024px) 900px, 85vw"
+                  priority={i === 0}
+                />
+              </div>
+            ) : (
+              <div className="pf-case-blank" aria-hidden="true" />
+            )}
             <div className="pf-case-scrim" />
 
             <div className="relative flex min-h-[26rem] flex-col justify-end p-8 sm:min-h-[30rem] sm:p-12">
@@ -154,9 +159,9 @@ export function CaseCarousel({ items }: { items: LiveProductBuild[] }) {
                       </svg>
                     </span>
                   </a>
-                ) : (
+                ) : product.privateProduct ? (
                   <span className="pf-label pf-muted">Private client product</span>
-                )}
+                ) : null}
               </div>
             </div>
           </article>

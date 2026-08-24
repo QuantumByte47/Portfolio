@@ -345,6 +345,34 @@
     opacity: 0.45;
   }
 
+  /* Stand-in panel for cases that have no artwork yet. */
+  .pf-case-blank {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+        90% 70% at 82% 18%,
+        rgba(245, 197, 24, 0.16) 0%,
+        transparent 62%
+      ),
+      linear-gradient(140deg, var(--panel-2) 0%, var(--bg) 70%);
+  }
+
+  .pf-case-blank::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0.5;
+    background-image: linear-gradient(
+        to right,
+        rgba(245, 197, 24, 0.07) 1px,
+        transparent 1px
+      ),
+      linear-gradient(to bottom, rgba(245, 197, 24, 0.07) 1px, transparent 1px);
+    background-size: 46px 46px;
+    mask-image: radial-gradient(80% 70% at 78% 22%, #000 0%, transparent 72%);
+    -webkit-mask-image: radial-gradient(80% 70% at 78% 22%, #000 0%, transparent 72%);
+  }
+
   .pf-case-scrim {
     position: absolute;
     inset: 0;

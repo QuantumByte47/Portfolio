@@ -26,7 +26,13 @@ export type LiveProductBuild = {
   name: string;
   category: string;
   url?: string;
-  image: string;
+  /*
+    Set only for work that genuinely has no public site. A missing `url` alone
+    must not imply this - it may just be a link I do not have yet.
+  */
+  privateProduct?: boolean;
+  /* Optional: cards without artwork fall back to a typographic layout. */
+  image?: string;
   imageFit: "cover" | "contain";
   /*
     "built" means end-to-end ownership with a small team. "contributed" means
@@ -177,6 +183,7 @@ export const liveProductBuilds: LiveProductBuild[] = [
   {
     name: "Compliant.io",
     category: "Security Compliance Platform",
+    privateProduct: true,
     image: "/images/live-products/compliant-io.png",
     imageFit: "cover",
     involvement: "built",
@@ -201,6 +208,7 @@ export const liveProductBuilds: LiveProductBuild[] = [
   {
     name: "LandLedger",
     category: "Land & Property CRM",
+    privateProduct: true,
     image: "/images/live-products/landledger.png",
     imageFit: "cover",
     involvement: "built",
@@ -221,6 +229,31 @@ export const liveProductBuilds: LiveProductBuild[] = [
       "Portfolio Analytics",
     ],
     stack: ["Next.js", "PostgreSQL", "Geospatial Data", "LLM Insights", "Pipeline Analytics", "Integrations"],
+  },
+  {
+    name: "Vaikora",
+    category: "AI Agent Security",
+    url: "https://vaikora.com/",
+    image: "/images/live-products/vaikora.png",
+    imageFit: "cover",
+    involvement: "built",
+    role: "Built the MCP layer, the guardrail engine, and the LLM routing behind it.",
+    summary:
+      "A firewall that sits between an application and its model. It screens traffic for prompt injection, strips sensitive data before it leaves, and enforces what an agent is allowed to do - without the team rewriting their app.",
+    highlights: [
+      "Built the guardrail engine that inspects prompts and completions for injection attempts and blocks them before they reach the model.",
+      "Added PII detection and redaction on the outbound path, so sensitive data does not leave inside a completion.",
+      "Built the MCP servers and LLM routing layer, so tool access is scoped per agent and every call is logged for review.",
+    ],
+    keywords: [
+      "Prompt Injection Defense",
+      "PII Redaction",
+      "Agent Guardrails",
+      "MCP Servers",
+      "LLM Routing",
+      "Threat Detection",
+    ],
+    stack: ["Model Context Protocol", "Python", "Guardrails", "LLM Routing", "Threat Detection", "Observability"],
   },
   {
     name: "Galileo.ai",
