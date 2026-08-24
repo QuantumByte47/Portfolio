@@ -14,10 +14,12 @@ import {
   keyMetrics,
   liveProductBuilds,
   principles,
+  reviews,
 } from "@/lib/portfolio-data";
 import { cn } from "@/lib/utils";
 
 import { CaseCarousel } from "@/components/case-carousel";
+import { ReviewRail } from "@/components/review-rail";
 import { ScrollProgress } from "@/components/scroll-progress";
 
 const EMAIL = "talhaislam471@gmail.com";
@@ -116,6 +118,11 @@ function Head({
 export default function Home() {
   const built = liveProductBuilds.filter((p) => p.involvement === "built");
   const contributed = liveProductBuilds.filter((p) => p.involvement === "contributed");
+
+  /* Split across two rows so they can scroll in opposite directions. */
+  const reviewSplit = Math.ceil(reviews.length / 2);
+  const reviewRowOne = reviews.slice(0, reviewSplit);
+  const reviewRowTwo = reviews.slice(reviewSplit);
 
   return (
     <>
@@ -406,6 +413,29 @@ export default function Home() {
           </div>
         </div>
 
+        {/* reviews — two rows scrolling opposite directions */}
+        {reviews.length > 0 ? (
+          <div className="mt-28">
+            <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
+              <Reveal>
+                <p className="pf-eyebrow">/reviews</p>
+                <h3 className="pf-display mt-4 text-[clamp(1.6rem,3.4vw,2.4rem)]">
+                  What agencies <span className="pf-outline">say</span>
+                </h3>
+                <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-[#8d8d8d]">
+                  Automation agencies and consultancies I have built for. Hover any card to
+                  stop the row and read it.
+                </p>
+              </Reveal>
+            </div>
+
+            <div className="mt-10 space-y-2">
+              <ReviewRail items={reviewRowOne} />
+              <ReviewRail items={reviewRowTwo} reverse />
+            </div>
+          </div>
+        ) : null}
+
         {/* infrastructure list */}
         <div className="mx-auto mt-28 max-w-[1400px] px-6 lg:px-10">
           <Reveal>
@@ -415,37 +445,48 @@ export default function Home() {
             </h3>
           </Reveal>
 
-          <div className="mt-12">
+          <div className="mt-12 grid gap-5 lg:grid-cols-2">
             {featuredProducts.map((product, i) => (
-              <Reveal key={product.name} delay={i * 0.04}>
-                <div className="pf-row grid gap-6 px-1 py-8 md:grid-cols-[0.9fr_1.1fr] md:gap-12 md:px-4">
-                  <div>
-                    <p className="pf-label pf-muted">{product.category}</p>
-                    <h4 className="pf-display mt-3 text-[1.6rem]">{product.name}</h4>
+              <Reveal key={product.name} delay={i * 0.06}>
+                <article className="pf-infra flex h-full flex-col p-8 lg:p-9">
+                  <span aria-hidden="true" className="pf-infra-num">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+
+                  <div className="relative">
+                    <p className="pf-eyebrow">{product.category}</p>
+                    <h4 className="pf-display pf-display-sm mt-4 max-w-[16ch] text-[1.5rem]">
+                      {product.name}
+                    </h4>
                     <p className="mt-4 text-[14px] leading-relaxed text-[#8d8d8d]">
                       {product.summary}
                     </p>
                   </div>
 
-                  <div className="space-y-3">
+                  <ul className="relative mt-7 flex-1 space-y-3.5 border-t border-[var(--line)] pt-6">
                     {product.outcomes.map((outcome) => (
-                      <p key={outcome} className="flex gap-3 text-[14px] leading-relaxed text-[#a8a8a8]">
-                        <span aria-hidden="true" className="mt-[0.6rem] h-px w-3.5 shrink-0 bg-[var(--yellow)]" />
-                        {outcome}
-                      </p>
-                    ))}
-                    <div className="flex flex-wrap gap-2 pt-3">
-                      {product.stack.map((item) => (
-                        <span key={item} className="pf-tag">
-                          {item}
+                      <li
+                        key={outcome}
+                        className="flex gap-3.5 text-[13.5px] leading-relaxed text-[#a8a8a8]"
+                      >
+                        <span aria-hidden="true" className="pf-infra-tick">
+                          <Check />
                         </span>
-                      ))}
-                    </div>
+                        {outcome}
+                      </li>
+                    ))}
+                  </ul>
+
+                  <div className="relative mt-7 flex flex-wrap gap-2">
+                    {product.stack.map((item) => (
+                      <span key={item} className="pf-tag">
+                        {item}
+                      </span>
+                    ))}
                   </div>
-                </div>
+                </article>
               </Reveal>
             ))}
-            <div className="border-t border-[var(--line)]" />
           </div>
         </div>
       </section>

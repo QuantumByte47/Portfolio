@@ -468,6 +468,264 @@
       0 0 0 1px rgba(245, 197, 24, 0.6);
   }
 
+  /* ---------------- review marquee ---------------- */
+
+  .pf-rail-wrap {
+    position: relative;
+  }
+
+  /*
+    A real scroll container, not an animated transform. The idle drift, the
+    arrows, and a trackpad swipe all move scrollLeft, so they can never fight
+    each other. Vertical padding gives the hover scale somewhere to grow -
+    overflow-x: auto forces overflow-y to auto, so anything outside is clipped.
+  */
+  .pf-rail-scroll-x {
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 2rem 0;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    overscroll-behavior-x: contain;
+  }
+
+  .pf-rail-scroll-x::-webkit-scrollbar {
+    display: none;
+  }
+
+  .pf-rail-wrap::before,
+  .pf-rail-wrap::after {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 3;
+    width: min(12vw, 7rem);
+  }
+
+  .pf-rail-wrap::before {
+    left: 0;
+    background: linear-gradient(to right, var(--bg), transparent);
+  }
+
+  .pf-rail-wrap::after {
+    right: 0;
+    background: linear-gradient(to left, var(--bg), transparent);
+  }
+
+  .pf-rail-btn {
+    position: absolute;
+    top: 50%;
+    z-index: 4;
+    display: grid;
+    place-items: center;
+    height: 44px;
+    width: 44px;
+    transform: translateY(-50%);
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    background: rgba(10, 10, 10, 0.82);
+    color: var(--text);
+    backdrop-filter: blur(8px);
+    transition: border-color 200ms ease, color 200ms ease, background 200ms ease;
+  }
+
+  .pf-rail-btn:hover {
+    border-color: var(--yellow);
+    color: var(--yellow);
+    background: rgba(10, 10, 10, 0.95);
+  }
+
+  .pf-review {
+    position: relative;
+    flex: 0 0 auto;
+    width: 460px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: var(--panel);
+    padding: 2rem;
+    transition: transform 420ms cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 320ms ease, background 320ms ease, box-shadow 420ms ease;
+  }
+
+  .pf-review:hover {
+    transform: scale(1.05) translateY(-6px);
+    border-color: var(--yellow);
+    background: var(--panel-2);
+    box-shadow: 0 34px 70px -32px rgba(0, 0, 0, 0.92);
+    z-index: 4;
+  }
+
+  /*
+    Accent edge that draws in from the left on hover. Inset to 0 rather than
+    -1px because the card now clips its overflow for the background image.
+  */
+  .pf-review::before {
+    content: "";
+    position: absolute;
+    inset-block: 0;
+    left: 0;
+    z-index: 3;
+    width: 3px;
+    background: var(--yellow);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 420ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .pf-review:hover::before {
+    transform: scaleY(1);
+  }
+
+  /* Logo crops carry their own background, so each reads as a real tile. */
+  .pf-review-logo {
+    display: flex;
+    align-items: center;
+    flex: 0 0 auto;
+    height: 44px;
+    max-width: 148px;
+    overflow: hidden;
+    border-radius: 3px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: border-color 320ms ease;
+  }
+
+  .pf-review:hover .pf-review-logo {
+    border-color: rgba(245, 197, 24, 0.5);
+  }
+
+  .pf-review-logo img {
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+  }
+
+  .pf-review-site {
+    color: #7d7d7d;
+    transition: color 320ms ease;
+  }
+
+  .pf-review-site:hover {
+    color: var(--yellow);
+  }
+
+  .pf-review-mark {
+    font-family: var(--font-display), sans-serif;
+    font-weight: 900;
+    font-size: 3rem;
+    line-height: 0.55;
+    color: rgba(245, 197, 24, 0.26);
+    transition: color 320ms ease;
+  }
+
+  .pf-review:hover .pf-review-mark {
+    color: var(--yellow);
+  }
+
+  .pf-review-quote {
+    color: #b0b0b0;
+    transition: color 320ms ease;
+  }
+
+  .pf-review:hover .pf-review-quote {
+    color: #e8e8e8;
+  }
+
+  .pf-review-star {
+    color: var(--yellow);
+  }
+
+  @media (max-width: 640px) {
+    .pf-review {
+      width: 300px;
+      padding: 1.5rem;
+    }
+
+    /* A scaled card would overflow a narrow screen; keep the lift only. */
+    .pf-review:hover {
+      transform: translateY(-6px);
+    }
+  }
+
+  /* ---------------- infrastructure cards ---------------- */
+
+  /*
+    Distinct from the engagement cards on purpose: those fill yellow, these
+    only take a yellow edge. Same family, different weight.
+  */
+  .pf-infra {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: var(--panel);
+    transition: border-color 340ms ease, background 340ms ease,
+      transform 420ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 420ms ease;
+  }
+
+  .pf-infra:hover {
+    border-color: rgba(245, 197, 24, 0.45);
+    background: var(--panel-2);
+    transform: translateY(-6px);
+    box-shadow: 0 30px 60px -34px rgba(0, 0, 0, 0.92);
+  }
+
+  /* Accent rule that sweeps across the top edge on hover. */
+  .pf-infra::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 2px;
+    width: 100%;
+    background: linear-gradient(90deg, var(--yellow), transparent 85%);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 520ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .pf-infra:hover::after {
+    transform: scaleX(1);
+  }
+
+  .pf-infra-num {
+    position: absolute;
+    top: -1.1rem;
+    right: -0.4rem;
+    pointer-events: none;
+    font-family: var(--font-display), sans-serif;
+    font-weight: 900;
+    font-size: clamp(4.5rem, 7vw, 6.5rem);
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgba(245, 197, 24, 0.13);
+    transition: -webkit-text-stroke-color 380ms ease;
+  }
+
+  .pf-infra:hover .pf-infra-num {
+    -webkit-text-stroke-color: rgba(245, 197, 24, 0.4);
+  }
+
+  .pf-infra-tick {
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    height: 16px;
+    width: 16px;
+    margin-top: 2px;
+    border-radius: 999px;
+    background: rgba(245, 197, 24, 0.13);
+    color: var(--yellow);
+    transition: background 340ms ease, color 340ms ease;
+  }
+
+  .pf-infra:hover .pf-infra-tick {
+    background: var(--yellow);
+    color: #0a0a0a;
+  }
+
   /* ---------------- engagement cards ---------------- */
 
   /*
