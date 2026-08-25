@@ -351,7 +351,7 @@ export type Review = {
 export const reviews: Review[] = [
   {
     quote:
-      "Working with a true full-stack AI engineer changed the trajectory of our recent deployment. The custom multi-agent orchestration framework they integrated into our core system was flawless. They understand both the high-level architecture and the granular code required to make complex automations truly reliable at scale. Exceptional work.",
+      "Working with a true full-stack AI engineer changed the trajectory of our recent deployment. The custom multi-agent orchestration framework Talha integrated into our core system was flawless. Talha understands both the high-level architecture and the granular code required to make complex automations truly reliable at scale. Exceptional work.",
     name: "Mac Liu",
     role: "Founder & CEO",
     company: "The Automation Company",
@@ -361,7 +361,7 @@ export const reviews: Review[] = [
   },
   {
     quote:
-      "Incredible technical depth. We brought them on to handle a highly complex RAG pipeline, and they delivered not just a robust backend, but a polished, modern dashboard that our operations team loves. We had a few minor API rate-limiting hurdles early on, but their problem-solving was incredibly fast. A highly capable partner for any serious AI initiative.",
+      "Incredible technical depth. We brought Talha on to handle a highly complex RAG pipeline, and what came back was not just a robust backend, but a polished, modern dashboard that our operations team loves. We had a few minor API rate-limiting hurdles early on, but the problem-solving was incredibly fast. A highly capable partner for any serious AI initiative.",
     name: "Justin Crawford",
     role: "Founder & CEO",
     company: "The Automation Company",
@@ -371,7 +371,7 @@ export const reviews: Review[] = [
   },
   {
     quote:
-      "Solid execution from start to finish. They successfully re-engineered our open-source CRM and tied it seamlessly into our new AI modules. Finding someone who understands legacy systems and can bridge them with modern AI data pipelines is rare. They brought our infrastructure into the modern era seamlessly.",
+      "Solid execution from start to finish. Talha re-engineered our open-source CRM and tied it seamlessly into our new AI modules. Finding someone who understands legacy systems and can bridge them with modern AI data pipelines is rare. Talha brought our infrastructure into the modern era seamlessly.",
     name: "Brad Byrum",
     role: "President",
     company: "Texas Automation Systems",
@@ -381,7 +381,7 @@ export const reviews: Review[] = [
   },
   {
     quote:
-      "They completely overhauled our digital assets and automated our diagnostic frameworks, cutting our manual processing time in half. It is hard to find an engineer who can manage the entire platform architecture end-to-end, from database design to the user interface. Highly professional and deeply knowledgeable.",
+      "Talha completely overhauled our digital assets and automated our diagnostic frameworks, cutting our manual processing time in half. It is hard to find an engineer who can manage the entire platform architecture end-to-end, from database design to the user interface. Highly professional and deeply knowledgeable.",
     name: "Patrick Dowden",
     role: "President",
     company: "Automation Southwest, LLC",
@@ -391,7 +391,7 @@ export const reviews: Review[] = [
   },
   {
     quote:
-      "Absolutely top-tier engineering. Their expertise in building agentic AI platforms and handling high-concurrency environments is exactly what CereStream needed. They architected a custom voice AI solution that performs with incredibly low latency. A masterclass in full-stack AI development.",
+      "Absolutely top-tier engineering. Talha's expertise in building agentic AI platforms and handling high-concurrency environments is exactly what CereStream needed. The custom voice AI solution Talha architected performs with incredibly low latency. A masterclass in full-stack AI development.",
     name: "Marcus",
     role: "Founder / Owner",
     company: "CereStream Automation",
@@ -401,7 +401,7 @@ export const reviews: Review[] = [
   },
   {
     quote:
-      "They don't just write code; they provide strategic technical architecture. The automated workflows and data pipelines they engineered for us are exceptionally stable. The frontend required a few design iterations to match our strict brand guidelines, but the underlying LLM integrations and business logic were bulletproof from day one.",
+      "Talha does not just write code, but provides strategic technical architecture. The automated workflows and data pipelines built for us are exceptionally stable. The frontend required a few design iterations to match our strict brand guidelines, but the underlying LLM integrations and business logic were bulletproof from day one.",
     name: "Tim McElmurry",
     role: "President",
     company: "Strategic Automation Services",
@@ -411,7 +411,7 @@ export const reviews: Review[] = [
   },
   {
     quote:
-      "At the enterprise level, scalability and security are non-negotiable. This engineer delivered a production-grade, high-concurrency intelligence pipeline that integrates beautifully with broader automation ecosystems. A brilliant technical mind pushing the boundaries of what multi-modal AI can do in enterprise workflow environments.",
+      "At the enterprise level, scalability and security are non-negotiable. Talha delivered a production-grade, high-concurrency intelligence pipeline that integrates beautifully with broader automation ecosystems. A brilliant technical mind pushing the boundaries of what multi-modal AI can do in enterprise workflow environments.",
     name: "Mihir Shukla",
     role: "Co-founder & CEO",
     company: "Automation Anywhere",

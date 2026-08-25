@@ -73,6 +73,14 @@ export function ReviewRail({
 }) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const pausedRef = useRef(false);
+  /*
+    Position is held here rather than read back from scrollLeft each frame.
+    Browsers round scrollLeft on read, so accumulating sub-pixel steps through
+    it loses the fraction and the wrap test starts firing on every frame.
+  */
+  const posRef = useRef(0);
+  const wroteRef = useRef(0);
+  const holdUntilRef = useRef(0);
 
   useEffect(() => {
     const el = scrollRef.current;
@@ -82,8 +90,13 @@ export function ReviewRail({
 
     /* One full copy of the list; the second copy is what we wrap into. */
     const cycle = () => el.scrollWidth / 2;
+    /* Modulo, so a wrap can never ping-pong between the two ends. */
+    const wrap = (v: number, c: number) => (c > 0 ? ((v % c) + c) % c : v);
 
-    if (reverse) el.scrollLeft = cycle();
+    posRef.current = reverse ? cycle() : 0;
+    el.scrollLeft = posRef.current;
+    wroteRef.current = el.scrollLeft;
+
     if (reduced) return;
 
     let raf = 0;
@@ -94,13 +107,20 @@ export function ReviewRail({
       const dt = Math.min((now - last) / 1000, 0.05);
       last = now;
 
-      if (!pausedRef.current) {
-        el.scrollLeft += (reverse ? -1 : 1) * SPEED * dt;
-        const c = cycle();
-        if (c > 0) {
-          if (el.scrollLeft >= c) el.scrollLeft -= c;
-          else if (el.scrollLeft <= 0) el.scrollLeft += c;
-        }
+      // Someone else moved the rail (arrow, trackpad, drag) - adopt it.
+      if (Math.abs(el.scrollLeft - wroteRef.current) > 1.5) {
+        posRef.current = el.scrollLeft;
+      }
+
+      const holding = now < holdUntilRef.current;
+
+      if (!pausedRef.current && !holding) {
+        posRef.current = wrap(
+          posRef.current + (reverse ? -SPEED : SPEED) * dt,
+          cycle()
+        );
+        el.scrollLeft = posRef.current;
+        wroteRef.current = el.scrollLeft;
       }
 
       raf = requestAnimationFrame(tick);
@@ -115,6 +135,8 @@ export function ReviewRail({
     if (!el) return;
     const card = el.querySelector<HTMLElement>(".pf-review");
     const step = card ? card.offsetWidth + 20 : 400;
+    // Let the smooth scroll finish before the drift takes the wheel back.
+    holdUntilRef.current = performance.now() + 650;
     el.scrollBy({ left: dir * step, behavior: "smooth" });
   }, []);
 

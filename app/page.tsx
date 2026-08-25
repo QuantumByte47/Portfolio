@@ -119,11 +119,6 @@ export default function Home() {
   const built = liveProductBuilds.filter((p) => p.involvement === "built");
   const contributed = liveProductBuilds.filter((p) => p.involvement === "contributed");
 
-  /* Split across two rows so they can scroll in opposite directions. */
-  const reviewSplit = Math.ceil(reviews.length / 2);
-  const reviewRowOne = reviews.slice(0, reviewSplit);
-  const reviewRowTwo = reviews.slice(reviewSplit);
-
   return (
     <>
       <ScrollProgress />
@@ -429,9 +424,13 @@ export default function Home() {
               </Reveal>
             </div>
 
-            <div className="mt-10 space-y-2">
-              <ReviewRail items={reviewRowOne} />
-              <ReviewRail items={reviewRowTwo} reverse />
+            {/*
+              One rail, not two. Split across two rows the seven reviews
+              repeated every three or four cards, so the duplicate needed for
+              the seamless loop was visible on screen at the same time.
+            */}
+            <div className="mt-10">
+              <ReviewRail items={reviews} />
             </div>
           </div>
         ) : null}
